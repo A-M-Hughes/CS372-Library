@@ -1,9 +1,10 @@
 const express = require('express');
 const path = require('path');
 const test2Routes = require('./router/test2.js').test2Routes; //Gets the additional routes from the test2.js file
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000; //Currently the port is hardcoded at 3000, can be changed if we decide to utilize a .env file
+const PORT = process.env.PORT || 5050; //If 5050 becomes the port than there is an issue with the .env file
   
 
 app.listen(PORT, (error) =>{
