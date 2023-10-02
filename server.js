@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5050; //If 5050 becomes the port than there is an issue with the .env file
-  
 
 app.listen(PORT, (error) =>{
     if(!error)
@@ -15,10 +14,41 @@ app.listen(PORT, (error) =>{
     }
 );
 
-//Sends the home page 
+// MIDDLEWARE:
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// ROUTES:
+
+// GET Requests:
+// Home page 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/test-homepage.html'));
-})
+    res.sendFile(path.join(__dirname, '/views/home/placeholder-home.html'));
+});
+// Login Page
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/login/placeholder-login.html'));
+});
+// Sign Up Page
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/login/placeholder-sign-up.html'));
+});
+
+// POST Requests:
+// Login Page
+app.post('/login', (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+    res.send(`Email: ${email}, Password: ${password}`);
+});
+// Sign Up Page
+app.post('/signup', (req, res) => {
+    let name = req.body.firstname + " " + req.body.lastname;
+    let email = req.body.email;
+    let password = req.body.password;
+    let confirm = req.body.confirm;
+    res.send(`Name: ${name}, Email: ${email}, Password: ${password}, Confirm: ${confirm}`);
+});
 
 /*This provides all of files from the public directory from the server, i.e. http://localhost:port/<FILE.NAME> and these files should be files like css styles, 
 js functions, and images. Anything that should be publically accessed by the frontend html */
@@ -33,5 +63,5 @@ app.use('/test2', test2Routes);
 
 //This is the 404 Route. THIS MUST REMAIN LAST IT CATCHES ALL OTHER GET REQUESTS 
 app.get('*', function(req, res){
-    res.status(404).sendFile(path.join(__dirname, 'views/404.html')) //send 404 error and file
+    res.status(404).sendFile(path.join(__dirname, 'views/404.html')); //send 404 error and file
 });
