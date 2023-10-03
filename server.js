@@ -27,11 +27,15 @@ app.get('/', (req, res) => {
 });
 // Login Page
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/login/placeholder-login.html'));
+    res.sendFile(path.join(__dirname, '/views/auth/placeholder-login.html'));
 });
 // Sign Up Page
 app.get('/signup', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/login/placeholder-sign-up.html'));
+    res.sendFile(path.join(__dirname, '/views/auth/placeholder-sign-up.html'));
+});
+// Dashboard
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/dashboard/placeholder-dashboard.html'));
 });
 
 // POST Requests:
@@ -39,7 +43,13 @@ app.get('/signup', (req, res) => {
 app.post('/login', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-    res.send(`Email: ${email}, Password: ${password}`);
+    if (true) {
+        // TODO: Once the database is configured, replace 'true' with a condition to check database for user
+        res.redirect('/dashboard');
+    } else {
+
+    }
+    // res.send(`Email: ${email}, Password: ${password}`);
 });
 // Sign Up Page
 app.post('/signup', (req, res) => {
@@ -47,7 +57,14 @@ app.post('/signup', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
     let confirm = req.body.confirm;
-    res.send(`Name: ${name}, Email: ${email}, Password: ${password}, Confirm: ${confirm}`);
+    if (true) {
+        // TODO: Once the database is configured, replace 'true' with a condition to check database and make
+        // sure the user does not already exist
+        res.redirect('/dashboard');
+    } else {
+        
+    }
+    //res.send(`Name: ${name}, Email: ${email}, Password: ${password}, Confirm: ${confirm}`);
 });
 
 /*This provides all of files from the public directory from the server, i.e. http://localhost:port/<FILE.NAME> and these files should be files like css styles, 
