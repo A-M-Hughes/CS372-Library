@@ -28,16 +28,16 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/views/home/placeholder-home.html'));
 });
 
-/*This provides all of files from the public directory from the server, i.e. http://localhost:port/<FILE.NAME> and these files should be files like css styles, 
+/* This provides all of files from the public directory from the server, i.e. http://localhost:port/<FILE.NAME> and these files should be files like css styles, 
 js functions, and images. Anything that should be publically accessed by the frontend html */
 app.use(express.static('public'));
 
 //This provides node_modules files under the /static directory, for files such as bootstrap if we decide to sent them from our server instead of accessing them from the web
 app.use('/static', express.static(path.join(__dirname, 'node_modules'))); 
 
-/*activates the routes from the test2.js file under directory /test2. So all routes defined in test2.js are accessed by -> <baseurl> + /test2/ + <test2.js route> 
-For example the two routes in test2.js can be accessed by url http://127.0.0.22:3000/test2 and http://127.0.0.22:3000/test2/helloworld*/
-// app.use('/test2', test2Routes);
+/* Activate the routes from the files under the directory "routes".
+For example, all routes defined in dashboard.js are accessed by -> <baseurl> + /dashboard/ + <dashboard.js route> 
+Therefore, the routes in dashboard.js can be accessed by url http://localhost:port/dashboard */
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/dashboard', dashboard);
