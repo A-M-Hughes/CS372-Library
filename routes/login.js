@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     } else {
 
     }
-    res.send(`Email: ${email}, Password: ${password}`);
+    // res.send(`Email: ${email}, Password: ${password}`);
 });
 
 module.exports.login = router;

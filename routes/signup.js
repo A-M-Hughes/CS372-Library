@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
     } else {
         
     }
-    res.send(`Name: ${name}, Email: ${email}, Password: ${password}, Confirm: ${confirm}`);
+    // res.send(`Name: ${name}, Email: ${email}, Password: ${password}, Confirm: ${confirm}`);
 });
 
 module.exports.signup = router;
