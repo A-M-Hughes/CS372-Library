@@ -6,6 +6,7 @@ securely create uri
 addBook function to update collection
 */
 const { MongoClient, ServerApiVersion } = require('mongodb');
+require('dotenv').config();
 
 //addUser creates a user from an object {name: ..., hashedpassword: ... , collection:[...]}
 async function addUser(client, newUser){
@@ -20,7 +21,7 @@ async function findUser(client, user){
 
     if(result){
         console.log(`Found user '${user}':`);
-        console.log(result);
+        return result;
     }else{
         console.log(`No user found with name '${user}'`);
     }
@@ -34,9 +35,8 @@ async function deleteUser(client, user){
 }
 
 //run function runs all of the db functions in sequence for testing purposes 
-
 async function run() {
-    const uri = "mongodb+srv://hastdj01:CS372Library@libraryapp.a0tso6w.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp";
+    const uri = process.env.MONGO_URI;
 
     const client = new MongoClient(uri, {
         serverAPI:{
@@ -54,7 +54,8 @@ async function run() {
 
         await addUser(client, {name: "Dylan", hashedpassword: "DH123", collection: []});
 
-        await findUser(client, "Dylan");
+        let foundUser = await findUser(client, "Dylan");
+        console.log(foundUser);
 
         await deleteUser(client, "Dylan");
         await findUser(client, "Dylan");
