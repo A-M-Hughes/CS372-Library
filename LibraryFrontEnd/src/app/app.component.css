@@ -1,0 +1,30 @@
+.page-container {
+    display: flex;
+    height: 100vh; /* Set the height of the container to the full viewport height */
+  }
+  
+  .left-section,
+  .right-section {
+    flex: 1; /* Each section takes up half of the available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .left-section {
+    background-color: #ddd; /* Gray background color */
+  }
+  
+  .left-section img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .right-section {
+    padding: 0; /* Add padding to the right section for better spacing */
+  }
+  
+  app-signup {
+    width: 100%; /* Ensure the signup form takes up the entire width */
+  }
+  
