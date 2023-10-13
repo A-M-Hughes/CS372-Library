@@ -1,0 +1,33 @@
+.section {
+    margin: 16px;
+  }
+  
+  .section-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .image-column {
+    flex: 1;
+    padding: 16px;
+  }
+  
+  .text-button-column {
+    flex: 1;
+    padding: 16px;
+  }
+  
+  .section-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .section-text {
+    margin-bottom: 16px;
+  }
+  
+  .section-button {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
