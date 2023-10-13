@@ -10,6 +10,9 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomepageSectionComponent } from './homepage-section/homepage-section.component';
+import { SharedModule } from 'src/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,16 @@ import { NavbarComponent } from './navbar/navbar.component';
     LoginPageComponent,
     SignupPageComponent,
     HomepageComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomepageSectionComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,14 @@
 <div class="homepage">
-    <app-navbar></app-navbar> <!-- Include the navbar component -->
-    <!-- Add the content specific to the homepage below -->
-    <h1>Welcome to the Homepage</h1>
-    <p>This is the homepage content.</p>
-  </div>
+  <app-navbar></app-navbar>
+  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 1 text goes here.'"
+    [buttonText]="'Start Searching'"></app-homepage-section>
+
+  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 2 text goes here.'"
+    [buttonText]="'Get Recomendations'"></app-homepage-section>
+
+  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 3 text goes here.'"
+    [buttonText]="'Start Collecting'"></app-homepage-section>
+
+  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 4 text goes here.'"
+    [buttonText]="'Get Started'"></app-homepage-section>
+</div>
