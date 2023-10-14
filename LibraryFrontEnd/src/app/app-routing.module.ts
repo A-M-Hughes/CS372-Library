@@ -5,10 +5,9 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent }, // Set the path to an empty string for the homepage
+  { path: '', component: HomepageComponent },
   { path: 'login', component: LoginPageComponent},
   { path: 'signup', component: SignupPageComponent}
-  // Add other routes as needed
 ];
 
 @NgModule({
