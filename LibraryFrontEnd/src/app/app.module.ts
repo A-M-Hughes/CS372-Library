@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router'; // Import RouterModule
-import { AppRoutingModule } from './app-routing.module'; // Your routing module
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
