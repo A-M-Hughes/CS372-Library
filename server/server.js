@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const bodyParser = require('body-parser');
+
 
 require('dotenv').config();
 
@@ -21,8 +23,8 @@ mongoose.connect(`${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.
     })
 
 // MIDDLEWARE:
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.json());
 
 // ROUTES:

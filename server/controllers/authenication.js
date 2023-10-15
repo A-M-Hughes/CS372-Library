@@ -79,7 +79,7 @@ const register = async (req, res) => {
             errMessage = err;
         }
 
-        res.stats(400).json({ error: { status: 400, message: errMessage } })
+        res.status(400).json({ error: { status: 400, message: errMessage } })
     }
 }
 
