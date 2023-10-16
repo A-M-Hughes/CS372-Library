@@ -38,7 +38,7 @@ const register = async (req, res) => {
             });
 
             //attempt save user into db
-            await user.save()
+            await user.save();
 
             //create JWT token
             const access_token = generateAccessToken(user.id, user.email);
@@ -74,7 +74,7 @@ const register = async (req, res) => {
         let errMessage;
 
         if (error.keyPattern.email === 1) { //If email exists send that as the message
-            errMessage = 'Email Exists'
+            errMessage = 'Email Exists';
         } else {
             errMessage = err;
         }
@@ -187,7 +187,7 @@ const confirmEmailToken = async (req, res) => {
             if (!user.emailConfirmed) {
                 //check if provided email token matches the one in the user's record
                 if (emailToken === user.emailToken) { //If there is a match, then success
-                    await User.updateOne({ email: decodeAccessToken.email }, { $set: { emailConfirmed: true, emailToken: null } })
+                    await User.updateOne({ email: decodeAccessToken.email }, { $set: { emailConfirmed: true, emailToken: null } });
                     res.status(200).json({ success: { status: 200, message: "Email Confirmed" } }); 
                 } else { //Otherwise the email token is invalid
                     res.status(401).json({ error: { status: 401, message: "Invalid email token" } });
@@ -207,7 +207,6 @@ const confirmEmailToken = async (req, res) => {
 should be able to access this route and seed GOOD + their email*/
 const test = async (req, res) => {
     try {
-        req.user
         res.send("GOOD" + req.user.email);
     }
     catch {
@@ -248,21 +247,15 @@ const sendEmailConfirmation = async (user) => {
 /*  This method takes an id and email, and generates an JWT access token using the access token key and expiry env vars
     it also has a uName parameter that isn't used just in case we want to use username authenication instead */
 const generateAccessToken = (id, email, uName) => {
-    let items = {
-        _id: id,
-        email: email,
-    }
-    return JWT.sign(items, process.env.SECRET_ACCESS_TOKEN, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY })
+    let items = {_id: id, email: email, };
+    return JWT.sign(items, process.env.SECRET_ACCESS_TOKEN, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 }
 
 /*  This method takes an id and email, and generates an JWT refresh token using the refresh token key and expiry env vars
     it also has a uName parameter that isn't used just in case we want to use username authenication instead */
 const generateRefreshToken = (id, email, uName) => {
-    let items = {
-        _id: id,
-        email: email,
-    }
-    return JWT.sign(items, process.env.SECRET_REFRESH_TOKEN, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY })
+    let items = {_id: id, email: email, };
+    return JWT.sign(items, process.env.SECRET_REFRESH_TOKEN, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
 }
 
 /*  This method takes a user email and a refresh token and adds the refresh token to the user's db record */

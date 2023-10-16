@@ -19,8 +19,8 @@ mongoose.connect(`${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.
                 console.log("Server is Successfully Running, and App is listening on port " + PORT);
             else
                 console.log("Error occurred, server can't start", error);
-        })
-    })
+        });
+    });
 
 // MIDDLEWARE:
 app.use(bodyParser.urlencoded({ extended: false }));
