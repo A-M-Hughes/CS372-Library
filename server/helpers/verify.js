@@ -11,7 +11,7 @@ const JWT = require('jsonwebtoken');
 //This middleware gets the JWT token, verifies it and moves to the next function, otherwise catches and throws an error
 const auth = (req, res, next) => {
     try {
-        const token = req.header('authorization').split(' ')[1]
+        const token = req.header('authorization').split(' ')[1];
 
         if (token) { //If token is present
             try {
