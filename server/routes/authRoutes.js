@@ -2,7 +2,7 @@ const express = require('express');
 const authController = require('../controllers/authenication');
 
 //API MIDDLEWARE
-const verifyToken = require('../helpers/verify')
+const verifyToken = require('../helpers/verify');
 
 //Router initialisation
 const router = express.Router();
