@@ -81,7 +81,7 @@ const featured = async (req, res) => {
         let workUrl = `https://openlibrary.org/trending/daily.json?limit=${limit}`;
         let resultJson = await getJsonFromReq(workUrl);
 
-        //parse data into a useable form (Open Library ID, title, book cover)
+        //parse data into a useable form (Open Library ID, title, book cover link)
         let featuredBooks = [];
         for (let i = 0; i < limit; i++) {
             let bookCover = "No cover provided.";
@@ -116,7 +116,7 @@ const workInformation = async (req, res) => {
         let resultJson = await getJsonFromReq(workUrl);
 
         //parse data into a useable form (title, authors, first published date,
-        //description, book cover, subjects, and first sentence)
+        //description, book cover link, subjects, and first sentence)
         let authorIds = [];
         for (let i = 0; i < resultJson.authors.length; i++) {
             authorIds.push(resultJson.authors[i].author.key);
