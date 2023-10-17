@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const booksApiRoutes = require('./routes/booksApiRoutes');
 const bodyParser = require('body-parser');
 
 
@@ -38,6 +39,7 @@ app.use('/static', express.static(path.join(__dirname, 'node_modules')));
 
 /*Access and host the routes needed for authentication*/
 app.use('/api', authRoutes);
+app.use('/api/books', booksApiRoutes);
 
 //This is the 404 Route. THIS MUST REMAIN LAST IT CATCHES ALL OTHER GET REQUESTS 
 app.get('*', function (req, res) {
