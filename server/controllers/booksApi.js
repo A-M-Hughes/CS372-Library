@@ -44,7 +44,7 @@ async function getAuthorsFromIds(authorIds, maxNumReqs) {
     //allow up to maxNumReqs requests
     const semaphore = new Semaphore(maxNumReqs);
 
-    authorNames = new Array(authorIds.length);
+    const authorNames = new Array(authorIds.length);
 
     authorIds.forEach(async (element, index) => {
         //aquire semaphore
