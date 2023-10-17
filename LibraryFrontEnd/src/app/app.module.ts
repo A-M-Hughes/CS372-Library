@@ -13,6 +13,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomepageSectionComponent } from './homepage-section/homepage-section.component';
 import { SharedModule } from 'src/shared/shared.module';
+import { TrendingBookListComponent } from './trending-book-list/trending-book-list.component';
+import { BookCardComponent } from './book-card/book-card.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,10 @@ import { SharedModule } from 'src/shared/shared.module';
     SignupPageComponent,
     HomepageComponent,
     NavbarComponent,
-    HomepageSectionComponent
+    HomepageSectionComponent,
+    TrendingBookListComponent,
+    BookCardComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +36,8 @@ import { SharedModule } from 'src/shared/shared.module';
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

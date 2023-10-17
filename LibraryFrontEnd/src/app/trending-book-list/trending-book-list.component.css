@@ -1,0 +1,5 @@
+:host {
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    justify-items: center;
+}
