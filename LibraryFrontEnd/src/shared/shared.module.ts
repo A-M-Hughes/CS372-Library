@@ -17,6 +17,6 @@ const materialModules = [
         materialModules,
         FlexLayoutModule
     ],
-    exports: materialModules,
+    exports: [materialModules],
 })
 export class SharedModule { }
