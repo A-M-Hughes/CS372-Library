@@ -31,7 +31,35 @@ const userSchema = new mongoose.Schema({
             refreshToken: String,
             createdAt: Date
         }],
+        passwordReset: {
+            token: {
+                type: String,
+                default: null
+            },
+            provisionalPassword: {
+                type: String,
+                default: null
+            },
+            expiry: {
+                type: Date,
+                default: null
+            },
+        },
+        changeEmail: {
+            token: {
+                type: String,
+                default: null
+            },
+            provisionalEmail: {
+                type: String,
+                default: null,
+            },
+            expiry: {
+                type: String,
+                default: null,
+            },
+        }
     }
-})
+});
 
 module.exports = mongoose.model('User', userSchema);

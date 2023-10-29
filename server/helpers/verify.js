@@ -19,14 +19,14 @@ const auth = (req, res, next) => {
                 next();
             } catch (error) { //Catch error with the token
                 console.log(error);
-                res.status(401).json({ error: { status: 401, message: "Bad Token" } });
+                res.status(401).json({ error: { status: 401, message: "BAD_TOKEN" } });
             }
 
         } else { //If token is not provided or some other error with the request
-            res.status(400).json({ error: { status: 401, message: "Access Denied, Unauthorized" } });
+            res.status(400).json({ error: { status: 401, message: "UNAUTHORIZED" } });
         }
     } catch (error) {
-        res.status(400).json({ error: { status: 400, message: "Access Denied, Client Error" } });
+        res.status(400).json({ error: { status: 400, message: "CLIENT_ERROR" } });
     }
 }
 
