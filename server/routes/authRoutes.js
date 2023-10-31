@@ -22,4 +22,17 @@ router.post('/auth/confirmEmail', verifyToken, authController.confirmEmailToken)
 //POST Login
 router.post('/login', authController.login);
 
+//Post Reset Password request
+router.post('/resetPassword', authController.resetPassword);
+
+//Post Confirm Reset Password
+router.post('/confirmResetPassword', authController.resetPasswordConfirm);
+
+//POST Change Email
+router.post('/changeEmail', verifyToken, authController.changeEmail);
+
+//POST Confirm Change Email
+router.post('/changeEmailConfirm', verifyToken, authController.changeEmailConfirm);
+
+
 module.exports = router;

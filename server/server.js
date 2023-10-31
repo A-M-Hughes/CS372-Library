@@ -4,24 +4,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const booksApiRoutes = require('./routes/booksApiRoutes');
 const bodyParser = require('body-parser');
-
-
-require('dotenv').config();
-
 const app = express();
-const PORT = process.env.PORT || 5050;
-
-mongoose.connect(`${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?${process.env.DB_PARAMS}`,
-    {
-        autoIndex: true,
-    }).then(() => {
-        app.listen(PORT, (error) => {
-            if (!error)
-                console.log("Server is Successfully Running, and App is listening on port " + PORT);
-            else
-                console.log("Error occurred, server can't start", error);
-        });
-    });
 
 // MIDDLEWARE:
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,3 +28,20 @@ app.use('/api/books', booksApiRoutes);
 app.get('*', function (req, res) {
     res.status(404).json({error: {status: 404, message: "File Not Found"}}); //send 404 error and file
 });
+
+require('dotenv').config();
+const PORT = process.env.PORT || 5050;
+const connectString = `${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?${process.env.DB_PARAMS}`;
+mongoose.connect(connectString,
+    {
+        autoIndex: true,
+    }).then(() => {
+        app.listen(PORT, (error) => {
+            if (!error)
+                console.log("Server is Successfully Running, and App is listening on port " + PORT);
+            else
+                console.log("Error occurred, server can't start", error);
+        });
+    });
+
+module.exports = app;
