@@ -28,7 +28,6 @@ async function findUser(client, user){
 
 async function checkCollection(client, user, bookID){
     //TODO:check if a book is already in collection
-    
 }
 
 async function addBook(client, user, bookID){
