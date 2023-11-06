@@ -2,8 +2,6 @@
 
 /*TODO:change "sample_user" to official db name wherever it is used
 establish db connection on app launch
-securely create uri
-addBook function to update collection
 */
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
@@ -27,11 +25,28 @@ async function findUser(client, user){
     }
 }
 
+
+async function checkCollection(client, user, bookID){
+    //TODO:check if a book is already in collection
+}
+
+async function addBook(client, user, bookID){
+        const result = await client.db("sample_user").collection("Users")
+        .updateOne({_id: user._id},
+             {$push: {collection: bookID}});
+}
+
+async function removeBook(client, user, bookID){
+    const result = await client.db("sample_user").collection("Users")
+    .updateOne({_id: user._id},
+        {$pull :{collection: bookID}});
+}
+
 //deleteUser deletes a user based on the name given
 async function deleteUser(client, user){
     const result = await client.db("sample_user").collection("Users").deleteOne({name: user});
 
-    console.log(`'${result.deletedCount}' user(s) deleted`);
+    console.log(`${result.deletedCount} user deleted`);
 }
 
 //run function runs all of the db functions in sequence for testing purposes 
@@ -52,9 +67,16 @@ async function run() {
         console.log("Connected!");
 
 
-        await addUser(client, {name: "Dylan", hashedpassword: "DH123", collection: []});
+        await addUser(client, {_id: 1, name: "Dylan", hashedpassword: "DH123", collection: []});
 
         let foundUser = await findUser(client, "Dylan");
+
+        await addBook(client, foundUser, 11);
+        console.log(foundUser);
+        foundUser = await findUser(client, "Dylan");
+        console.log(foundUser);
+        await removeBook(client, foundUser, 11);
+        foundUser = await findUser(client, "Dylan");
         console.log(foundUser);
 
         await deleteUser(client, "Dylan");
