@@ -104,7 +104,7 @@ const featured = async (req, res) => {
     }
 }
 
-//get information about the work at the specified Open Library ID (OLID)
+//Get information about the work at the specified Open Library ID (OLID). The ID MUST end with a 'W'.
 const workInformation = async (req, res) => {
     try {
         let bookId = req.params.id;
@@ -163,7 +163,141 @@ const workInformation = async (req, res) => {
     }
 }
 
+//Get book information from a specified Open Library ID (OLID). The ID MUST end with an 'M'.
+const bookInformation = async (req, res) => {
+    try {
+        let bookId = req.params.id;
+
+        //API call for getting the work's information
+        let workUrl = `https://openlibrary.org/books/${bookId}.json`;
+
+        //parse data into JSON object
+        let resultJson = await getJsonFromReq(workUrl);
+
+        res.send(resultJson);
+
+        //parse data into a useable form (title, authors, first published date,
+        // //description, book cover link, subjects, and first sentence)
+        // let authorIds = [];
+        // for (let i = 0; i < resultJson.authors.length; i++) {
+        //     authorIds.push(resultJson.authors[i].author.key);
+        // }
+
+        // // get author information while only having 5 active requests at a time.
+        // let maxNumReqs = 5;
+        // let authors = await getAuthorsFromIds(authorIds, maxNumReqs);
+
+        // let bookCoverId = resultJson.covers[0];
+        // let bookCover = `https://covers.openlibrary.org/b/id/${bookCoverId}-S.jpg`;
+
+        // let description = "No description provided.";
+        // if (resultJson.description) {
+        //     if (typeof resultJson.description === "object") {
+        //         description = resultJson.description.value;
+        //     } else {
+        //         description = resultJson.description;
+        //     }
+        // }
+
+        // let firstSentence = "No first sentence provided.";
+        // if (resultJson.first_sentence) {
+        //     firstSentence = resultJson.first_sentence.value;
+        // } else if (resultJson.excerpts) {
+        //     firstSentence = resultJson.excerpts[0].excerpt;
+        // }
+
+        // let bookInformation = {
+        //     title: (resultJson.title) ? resultJson.title : "No title provided.",
+        //     authors: (resultJson.authors) ? authors : "No author provided.",
+        //     firstPublishDate: (resultJson.first_publish_date) ?
+        //             resultJson.first_publish_date : "No publish data provided.",
+        //     description: description,
+        //     bookCover: (resultJson.covers) ? bookCover : "No cover provided.",
+        //     subjects: (resultJson.subjects) ? resultJson.subjects : "No subjects provided.",
+        //     firstSentence: firstSentence
+        // };
+
+        // res.send(bookInformation);
+    } catch (error) {
+        console.log(`Error: ${error}`);
+        res.status(400).json({ error: { status: 400, message: error } });
+    }
+}
+
+//Search OpenLibrary for a book. The query can be a book title, ISBN-10, ISBN-13, or OLID
+//It fetches 10 books per request. the page query parameter specifies the page of the
+//search result. For example, page 1 has books 0 through 9, page 2 has books 10 through 19,
+//etc.
+
+/* 
+TODO Flow:
+Search for WORKS (not books) -> list of books with non-edition specific info (e.g., title, authors, subjects, median num pages, edition count)
+Click on work -> get list of editions (books) with specific information (e.g., title, authors, publishers publish dates, publish locations, num pages, edition, )
+*/
+
+const searchBooks = async (req, res) => {
+    try {
+        let searchQuery = req.params.query;
+        let page = req.params.page || 1;
+        let limit = 10;
+
+        //API call for getting 10 works from the search
+        let workUrl = `https://openlibrary.org/search.json?q=${searchQuery}&limit=${limit}&page=${page}`;
+
+        //parse data into JSON object
+        let resultJson = await getJsonFromReq(workUrl);
+
+        //parse the data into a more usable format
+        let booksResult = [];
+        for (let i = 0; i < resultJson.docs.length; i++) {
+            let currentDoc = resultJson.docs[i];
+
+            let bookfirstSentence = "No first sentence provided.";
+            if (currentDoc.first_sentence) {
+                bookfirstSentence = currentDoc.first_sentence[0];
+            }
+            let bookCover = "No book cover provided.";
+            if (currentDoc.cover_i) {
+                bookCover = `https://covers.openlibrary.org/b/id/${currentDoc.cover_i}-S.jpg`;
+            }
+            let bookSubjects = "No subjects provided.";
+            if (currentDoc.subject) {
+                bookSubjects = currentDoc.subject.slice(0, 10);
+            }
+
+            let bookInformation = {
+                title: currentDoc.title || "No title provided.",
+                subtitle: currentDoc.subtitle || "No subtitle provided.",
+                authors: currentDoc.author_name || "No author provided.",
+                subjects: bookSubjects,
+                firstSentence: bookfirstSentence,
+                bookCover: bookCover,
+                firstPublishYear: currentDoc.first_publish_year || "No first published year provided.",
+                medianNumPages: currentDoc.number_of_pages_median || "No median number of pages provided.",
+                numEditions: currentDoc.edition_count || "No edition count provided.",
+                ratingsInfo: {
+                    ratingsAverage: currentDoc.ratings_average || "No average rating provided.",
+                    numRatingsTotal: currentDoc.ratings_count || "No ratings count provided.",
+                    numRatings1: currentDoc.ratings_count_1,
+                    numRatings2: currentDoc.ratings_count_2,
+                    numRatings3: currentDoc.ratings_count_3,
+                    numRatings4: currentDoc.ratings_count_4,
+                    numRatings5: currentDoc.ratings_count_5,
+                }
+            };
+            booksResult.push(bookInformation);
+        }
+        
+        res.send(booksResult);
+    } catch (error) {
+        console.log(`Error: ${error}`);
+        res.status(400).json({ error: { status: 400, message: error } });
+    }
+}
+
 module.exports = {
     featured,
-    workInformation
+    workInformation,
+    bookInformation,
+    searchBooks
 };

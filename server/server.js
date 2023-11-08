@@ -22,7 +22,9 @@ app.use('/static', express.static(path.join(__dirname, 'node_modules')));
 
 /*Access and host the routes needed for authentication*/
 app.use('/api', authRoutes);
-app.use('/api/books', booksApiRoutes);
+
+//Access and host the routes needed for book and OpenLibrary data
+app.use('/api/booksApi', booksApiRoutes);
 
 //This is the 404 Route. THIS MUST REMAIN LAST IT CATCHES ALL OTHER GET REQUESTS 
 app.get('*', function (req, res) {
