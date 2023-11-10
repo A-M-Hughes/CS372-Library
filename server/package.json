@@ -33,7 +33,6 @@
     "mongodb": "^6.1.0",
     "mongoose": "^7.6.2",
     "nodemailer": "^6.9.6",
-    "supertest": "^6.3.3",
     "uuid": "^9.0.1"
   }
 }

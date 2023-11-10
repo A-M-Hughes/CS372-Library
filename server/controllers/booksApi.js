@@ -83,7 +83,7 @@ const featured = async (req, res) => {
 
         //parse data into a useable form (Open Library ID, title, book cover link)
         let featuredBooks = [];
-        for (let i = 0; i < limit; i++) {
+        for (let i = 0; i < resultJson.works.length; i++) {
             let bookCover = "No cover provided.";
             if (resultJson.works[i].cover_i) {
                 let bookCoverId = resultJson.works[i].cover_i;
@@ -118,16 +118,24 @@ const workInformation = async (req, res) => {
         //parse data into a useable form (title, authors, first published date,
         //description, book cover link, subjects, and first sentence)
         let authorIds = [];
-        for (let i = 0; i < resultJson.authors.length; i++) {
-            authorIds.push(resultJson.authors[i].author.key);
+        if (resultJson.authors) {
+            for (let i = 0; i < resultJson.authors.length; i++) {
+                authorIds.push(resultJson.authors[i].author.key);
+            }
         }
+
 
         // get author information while only having 5 active requests at a time.
         let maxNumReqs = 5;
-        let authors = await getAuthorsFromIds(authorIds, maxNumReqs);
+        let authors = "No author provided.";
+        if (authorIds.length > 0) {
+            authors = await getAuthorsFromIds(authorIds, maxNumReqs);
+        }
 
-        let bookCoverId = resultJson.covers[0];
-        let bookCover = `https://covers.openlibrary.org/b/id/${bookCoverId}-S.jpg`;
+        let bookCover = "No book cover provided.";
+        if (resultJson.covers) {
+            bookCover = `https://covers.openlibrary.org/b/id/${resultJson.covers[0]}-S.jpg`;
+        }
 
         let description = "No description provided.";
         if (resultJson.description) {
@@ -146,13 +154,12 @@ const workInformation = async (req, res) => {
         }
 
         let bookInformation = {
-            title: (resultJson.title) ? resultJson.title : "No title provided.",
-            authors: (resultJson.authors) ? authors : "No author provided.",
-            firstPublishDate: (resultJson.first_publish_date) ?
-                    resultJson.first_publish_date : "No publish data provided.",
+            title: resultJson.title || "No title provided.",
+            authors: authors,
+            firstPublishDate: resultJson.first_publish_date || "No publish data provided.",
             description: description,
-            bookCover: (resultJson.covers) ? bookCover : "No cover provided.",
-            subjects: (resultJson.subjects) ? resultJson.subjects : "No subjects provided.",
+            bookCover: bookCover,
+            subjects: resultJson.subjects || "No subjects provided.",
             firstSentence: firstSentence
         };
 
@@ -174,50 +181,56 @@ const bookInformation = async (req, res) => {
         //parse data into JSON object
         let resultJson = await getJsonFromReq(workUrl);
 
-        res.send(resultJson);
+        let description = "No description provided.";
+        if (resultJson.description) {
+            if (typeof resultJson.description === "object") {
+                description = resultJson.description.value;
+            } else {
+                description = resultJson.description;
+            }
+        }
 
-        //parse data into a useable form (title, authors, first published date,
-        // //description, book cover link, subjects, and first sentence)
-        // let authorIds = [];
-        // for (let i = 0; i < resultJson.authors.length; i++) {
-        //     authorIds.push(resultJson.authors[i].author.key);
-        // }
+        let authorIds = [];
+        if (resultJson.authors) {
+            for (let i = 0; i < resultJson.authors.length; i++) {
+                authorIds.push(resultJson.authors[i].key);
+            }
+        }
 
-        // // get author information while only having 5 active requests at a time.
-        // let maxNumReqs = 5;
-        // let authors = await getAuthorsFromIds(authorIds, maxNumReqs);
+        // get author information while only having 5 active requests at a time.
+        let maxNumReqs = 5;
+        let authors = "No author provided.";
+        if (authorIds.length > 0) {
+            authors = await getAuthorsFromIds(authorIds, maxNumReqs);
+        }
 
-        // let bookCoverId = resultJson.covers[0];
-        // let bookCover = `https://covers.openlibrary.org/b/id/${bookCoverId}-S.jpg`;
+        let bookCover = "No book cover provided.";
+        if (resultJson.covers) {
+            bookCover = `https://covers.openlibrary.org/b/id/${resultJson.covers[0]}-S.jpg`;
+        }
+        let works = "No associated works provided.";
+        if (resultJson.works) {
+            works = resultJson.works.map((work) => work.key.match(/OL\d+W$/)[0]);
+        }
+        let bookInformation = {
+            title: resultJson.title || "No title provided.",
+            description: description,
+            authors: authors,
+            subjects: resultJson.subjects || "No subjects provided.",
+            publishers: resultJson.publishers || "No publisher provided.",
+            publishDate: resultJson.publish_date || "No publish date provided.",
+            series: resultJson.series || "No series provided.",
+            bookCover: bookCover,
+            physicalFormat: resultJson.physical_format || "No format provided.",
+            publishPlaces: resultJson.publish_places || "No publish places provided.",
+            editionName: resultJson.edition_name || "No edition name provided.",
+            isbn13: resultJson.isbn_13 || "No ISBN-13 number provided.",
+            isbn10: resultJson.isbn_10 || "No ISBN-10 number provided.",
+            works: works,
+            numPages: resultJson.number_of_pages || "No number of pages provided.",
+        };
 
-        // let description = "No description provided.";
-        // if (resultJson.description) {
-        //     if (typeof resultJson.description === "object") {
-        //         description = resultJson.description.value;
-        //     } else {
-        //         description = resultJson.description;
-        //     }
-        // }
-
-        // let firstSentence = "No first sentence provided.";
-        // if (resultJson.first_sentence) {
-        //     firstSentence = resultJson.first_sentence.value;
-        // } else if (resultJson.excerpts) {
-        //     firstSentence = resultJson.excerpts[0].excerpt;
-        // }
-
-        // let bookInformation = {
-        //     title: (resultJson.title) ? resultJson.title : "No title provided.",
-        //     authors: (resultJson.authors) ? authors : "No author provided.",
-        //     firstPublishDate: (resultJson.first_publish_date) ?
-        //             resultJson.first_publish_date : "No publish data provided.",
-        //     description: description,
-        //     bookCover: (resultJson.covers) ? bookCover : "No cover provided.",
-        //     subjects: (resultJson.subjects) ? resultJson.subjects : "No subjects provided.",
-        //     firstSentence: firstSentence
-        // };
-
-        // res.send(bookInformation);
+        res.send(bookInformation);
     } catch (error) {
         console.log(`Error: ${error}`);
         res.status(400).json({ error: { status: 400, message: error } });
@@ -256,38 +269,46 @@ const searchBooks = async (req, res) => {
             if (currentDoc.first_sentence) {
                 bookfirstSentence = currentDoc.first_sentence[0];
             }
+
             let bookCover = "No book cover provided.";
             if (currentDoc.cover_i) {
                 bookCover = `https://covers.openlibrary.org/b/id/${currentDoc.cover_i}-S.jpg`;
             }
-            let bookSubjects = "No subjects provided.";
-            if (currentDoc.subject) {
-                bookSubjects = currentDoc.subject.slice(0, 10);
+
+            let numRatingsTotal = "No ratings count provided.";
+            let ratingsBreakdown = "No ratings breakdown provided.";
+            if (currentDoc.ratings_count) {
+                numRatingsTotal = currentDoc.ratings_count;
+                ratingsBreakdown = [
+                    currentDoc.ratings_count_1,
+                    currentDoc.ratings_count_2,
+                    currentDoc.ratings_count_3,
+                    currentDoc.ratings_count_4,
+                    currentDoc.ratings_count_5
+                ];
             }
 
             let bookInformation = {
                 title: currentDoc.title || "No title provided.",
                 subtitle: currentDoc.subtitle || "No subtitle provided.",
                 authors: currentDoc.author_name || "No author provided.",
-                subjects: bookSubjects,
+                subjects: currentDoc.subject || "No subjects provided.",
                 firstSentence: bookfirstSentence,
                 bookCover: bookCover,
                 firstPublishYear: currentDoc.first_publish_year || "No first published year provided.",
                 medianNumPages: currentDoc.number_of_pages_median || "No median number of pages provided.",
                 numEditions: currentDoc.edition_count || "No edition count provided.",
-                ratingsInfo: {
-                    ratingsAverage: currentDoc.ratings_average || "No average rating provided.",
-                    numRatingsTotal: currentDoc.ratings_count || "No ratings count provided.",
-                    numRatings1: currentDoc.ratings_count_1,
-                    numRatings2: currentDoc.ratings_count_2,
-                    numRatings3: currentDoc.ratings_count_3,
-                    numRatings4: currentDoc.ratings_count_4,
-                    numRatings5: currentDoc.ratings_count_5,
-                }
+                editionIds: currentDoc.edition_key || "No edition keys provided.",
+                ratingsAverage: currentDoc.ratings_average || "No average rating provided.",
+                numRatingsTotal: numRatingsTotal,
+                ratingsBreakdown: ratingsBreakdown
             };
             booksResult.push(bookInformation);
         }
         
+        if (booksResult.length === 0) {
+            booksResult.push("No results.");
+        }
         res.send(booksResult);
     } catch (error) {
         console.log(`Error: ${error}`);
