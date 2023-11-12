@@ -72,16 +72,19 @@ async function getAuthorsFromIds(authorIds, maxNumReqs) {
 
 //Route Controllers
 
-//get the top 10 daily trending books from OpenLibrary
+//Get featured books.
+//Get the top 10 daily trending books from OpenLibrary.
 const featured = async (req, res) => {
     try {
         let limit = 10;
 
         //API call for getting the trending books of the day
         let workUrl = `https://openlibrary.org/trending/daily.json?limit=${limit}`;
+
+        //Make request and get JSON object containing information
         let resultJson = await getJsonFromReq(workUrl);
 
-        //parse data into a useable form (Open Library ID, title, book cover link)
+        //parse data into a useable form (array of Open Library IDs, titles, book cover links)
         let featuredBooks = [];
         for (let i = 0; i < resultJson.works.length; i++) {
             let bookCover = "No cover provided.";
@@ -104,7 +107,8 @@ const featured = async (req, res) => {
     }
 }
 
-//Get information about the work at the specified Open Library ID (OLID). The ID MUST end with a 'W'.
+//Get information about the work at the specified Open Library ID (OLID).
+//The ID MUST end with a 'W'.
 const workInformation = async (req, res) => {
     try {
         let bookId = req.params.id;
@@ -112,7 +116,7 @@ const workInformation = async (req, res) => {
         //API call for getting the work's information
         let workUrl = `https://openlibrary.org/works/${bookId}.json`;
 
-        //parse data into JSON object
+        //Make request and get JSON object containing information
         let resultJson = await getJsonFromReq(workUrl);
 
         //parse data into a useable form (title, authors, first published date,
@@ -123,8 +127,6 @@ const workInformation = async (req, res) => {
                 authorIds.push(resultJson.authors[i].author.key);
             }
         }
-
-
         // get author information while only having 5 active requests at a time.
         let maxNumReqs = 5;
         let authors = "No author provided.";
@@ -170,7 +172,8 @@ const workInformation = async (req, res) => {
     }
 }
 
-//Get book information from a specified Open Library ID (OLID). The ID MUST end with an 'M'.
+//Get book information from a specified Open Library ID (OLID).
+//The ID MUST end with an 'M'.
 const bookInformation = async (req, res) => {
     try {
         let bookId = req.params.id;
@@ -178,9 +181,12 @@ const bookInformation = async (req, res) => {
         //API call for getting the work's information
         let workUrl = `https://openlibrary.org/books/${bookId}.json`;
 
-        //parse data into JSON object
+        //Make request and get JSON object containing information
         let resultJson = await getJsonFromReq(workUrl);
 
+        //parse data into a useable form (title, description, authors, subjects, publishers,
+        //publish date, publish places, series, book cover link, physical format, edition name,
+        // ISBN-13, ISBN-10, associated works, and number of pages)
         let description = "No description provided.";
         if (resultJson.description) {
             if (typeof resultJson.description === "object") {
@@ -219,10 +225,10 @@ const bookInformation = async (req, res) => {
             subjects: resultJson.subjects || "No subjects provided.",
             publishers: resultJson.publishers || "No publisher provided.",
             publishDate: resultJson.publish_date || "No publish date provided.",
+            publishPlaces: resultJson.publish_places || "No publish places provided.",
             series: resultJson.series || "No series provided.",
             bookCover: bookCover,
             physicalFormat: resultJson.physical_format || "No format provided.",
-            publishPlaces: resultJson.publish_places || "No publish places provided.",
             editionName: resultJson.edition_name || "No edition name provided.",
             isbn13: resultJson.isbn_13 || "No ISBN-13 number provided.",
             isbn10: resultJson.isbn_10 || "No ISBN-10 number provided.",
@@ -237,17 +243,10 @@ const bookInformation = async (req, res) => {
     }
 }
 
-//Search OpenLibrary for a book. The query can be a book title, ISBN-10, ISBN-13, or OLID
-//It fetches 10 books per request. the page query parameter specifies the page of the
+//Search OpenLibrary for a work. The query can be a book title, ISBN-10, ISBN-13, or OLID
+//It fetches 10 works per request. the page query parameter specifies the page of the
 //search result. For example, page 1 has books 0 through 9, page 2 has books 10 through 19,
-//etc.
-
-/* 
-TODO Flow:
-Search for WORKS (not books) -> list of books with non-edition specific info (e.g., title, authors, subjects, median num pages, edition count)
-Click on work -> get list of editions (books) with specific information (e.g., title, authors, publishers publish dates, publish locations, num pages, edition, )
-*/
-
+//etc. If there is no page number provided, it defaults to page 1.
 const searchBooks = async (req, res) => {
     try {
         let searchQuery = req.params.query;
@@ -257,10 +256,12 @@ const searchBooks = async (req, res) => {
         //API call for getting 10 works from the search
         let workUrl = `https://openlibrary.org/search.json?q=${searchQuery}&limit=${limit}&page=${page}`;
 
-        //parse data into JSON object
+        //Make request and get JSON object containing information
         let resultJson = await getJsonFromReq(workUrl);
 
-        //parse the data into a more usable format
+        //parse data into a useable form (array of titles, subtitles, authors, subjects, first sentences,
+        //book cover links, first published years, median page numbers, edition numbers, edition IDs,
+        //average ratings, total ratings numbers, and ratings breakdowns)
         let booksResult = [];
         for (let i = 0; i < resultJson.docs.length; i++) {
             let currentDoc = resultJson.docs[i];
@@ -275,6 +276,9 @@ const searchBooks = async (req, res) => {
                 bookCover = `https://covers.openlibrary.org/b/id/${currentDoc.cover_i}-S.jpg`;
             }
 
+            //ratingsBreakdown contains how many 1-star, 2-star, 3-star, 4-star, and 5-star ratings
+            //their are for the work. 1-star ratings are stored at index 0, 2-star ratings are stored
+            //at index 1, etc.
             let numRatingsTotal = "No ratings count provided.";
             let ratingsBreakdown = "No ratings breakdown provided.";
             if (currentDoc.ratings_count) {
@@ -309,7 +313,22 @@ const searchBooks = async (req, res) => {
         if (booksResult.length === 0) {
             booksResult.push("No results.");
         }
-        res.send(booksResult);
+
+        //include search result data with useful statistics, including the number of total
+        //search results found, the index of the first result on the current page, and the
+        //number of search results on the current page.
+        let numOnPage = Math.min(limit, resultJson.numFound - resultJson.start);
+        if (numOnPage < 0) {
+            numOnPage = 0;
+        }
+        let resultInfo = {
+            numFound: resultJson.numFound,
+            indexOfFirstResult: resultJson.start,
+            numOnPage: numOnPage,
+            results: booksResult
+        }
+
+        res.send(resultInfo);
     } catch (error) {
         console.log(`Error: ${error}`);
         res.status(400).json({ error: { status: 400, message: error } });
