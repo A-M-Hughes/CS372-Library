@@ -244,7 +244,7 @@ const bookInformation = async (req, res) => {
 }
 
 //Search OpenLibrary for a work. The query can be a book title, ISBN-10, ISBN-13, or OLID
-//It fetches 10 works per request. the page query parameter specifies the page of the
+//It fetches 10 works per request. The page query parameter specifies the page of the
 //search result. For example, page 1 has books 0 through 9, page 2 has books 10 through 19,
 //etc. If there is no page number provided, it defaults to page 1.
 const searchBooks = async (req, res) => {
