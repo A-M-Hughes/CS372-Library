@@ -83,7 +83,12 @@ describe('GET /api/booksApi/works/OL27448W', function () {
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an('object');
                 expect(res.body).to.have.property('title');
-                expect(res.body).to.have.property('authors');
+                expect(res.body).to.have.property('authors').to.be.an('array');
+                for (let i = 0; i < res.body.authors.length; i++) {
+                    expect(res.body.authors[i]).to.be.an('object');
+                    expect(res.body.authors[i]).to.have.property('id');
+                    expect(res.body.authors[i]).to.have.property('name');
+                }
                 expect(res.body).to.have.property('firstPublishDate');
                 expect(res.body).to.have.property('description');
                 expect(res.body).to.have.property('bookCover')
@@ -102,6 +107,163 @@ describe('GET /api/booksApi/works/OL5237526M', function () {
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
                 expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('invalid ID');
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL27448W', function () {
+    it('should get information about the first 10 editions of the given work', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL27448W')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('numFound');
+                expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
+                expect(res.body).to.have.property('numOnPage').to.equal(10);
+                expect(res.body).to.have.property('editions').to.be.an('array').that.has.lengthOf(10);
+                for (let i = 0; i < res.body.editions.length; i++) {
+                    expect(res.body.editions[i]).to.have.property('key').to.match(/^OL\d+M$/);
+                    expect(res.body.editions[i]).to.have.property('title');
+                    expect(res.body.editions[i]).to.have.property('description');
+                    expect(res.body.editions[i]).to.have.property('authors');
+                    expect(res.body.editions[i]).to.have.property('subjects');
+                    expect(res.body.editions[i]).to.have.property('publishers');
+                    expect(res.body.editions[i]).to.have.property('publishDate');
+                    expect(res.body.editions[i]).to.have.property('publishPlaces');
+                    expect(res.body.editions[i]).to.have.property('series');
+                    expect(res.body.editions[i]).to.have.property('bookCover');
+                    expect(res.body.editions[i]).to.have.property('physicalFormat');
+                    expect(res.body.editions[i]).to.have.property('editionName');
+                    expect(res.body.editions[i]).to.have.property('isbn13');
+                    expect(res.body.editions[i]).to.have.property('isbn10');
+                    expect(res.body.editions[i]).to.have.property('works');
+                    expect(res.body.editions[i]).to.have.property('numPages');
+                }
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL5237526M', function () {
+    it('should return an error due to invalid work ID (ID of a book, not a work)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL5237526M')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('invalid ID');
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL27448W/5', function () {
+    it('should get information about editions 40-49 of the given work', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL27448W/5')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('numFound');
+                expect(res.body).to.have.property('indexOfFirstResult').to.equal(40);
+                expect(res.body).to.have.property('numOnPage').to.equal(10);
+                expect(res.body).to.have.property('editions').to.be.an('array').that.has.lengthOf(10);
+                for (let i = 0; i < res.body.editions.length; i++) {
+                    expect(res.body.editions[i]).to.have.property('key').to.match(/^OL\d+M$/);
+                    expect(res.body.editions[i]).to.have.property('title');
+                    expect(res.body.editions[i]).to.have.property('description');
+                    expect(res.body.editions[i]).to.have.property('authors');
+                    expect(res.body.editions[i]).to.have.property('subjects');
+                    expect(res.body.editions[i]).to.have.property('publishers');
+                    expect(res.body.editions[i]).to.have.property('publishDate');
+                    expect(res.body.editions[i]).to.have.property('publishPlaces');
+                    expect(res.body.editions[i]).to.have.property('series');
+                    expect(res.body.editions[i]).to.have.property('bookCover');
+                    expect(res.body.editions[i]).to.have.property('physicalFormat');
+                    expect(res.body.editions[i]).to.have.property('editionName');
+                    expect(res.body.editions[i]).to.have.property('isbn13');
+                    expect(res.body.editions[i]).to.have.property('isbn10');
+                    expect(res.body.editions[i]).to.have.property('works');
+                    expect(res.body.editions[i]).to.have.property('numPages');
+                }
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL27448W/16', function () {
+    it('should get information about the last (9) editions of the given work', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL27448W/16')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('numFound');
+                expect(res.body).to.have.property('indexOfFirstResult').to.equal(150);
+                expect(res.body).to.have.property('numOnPage').to.equal(9);
+                expect(res.body).to.have.property('editions').to.be.an('array').that.has.lengthOf(9);
+                for (let i = 0; i < res.body.editions.length; i++) {
+                    expect(res.body.editions[i]).to.have.property('key').to.match(/^OL\d+M$/);
+                    expect(res.body.editions[i]).to.have.property('title');
+                    expect(res.body.editions[i]).to.have.property('description');
+                    expect(res.body.editions[i]).to.have.property('authors');
+                    expect(res.body.editions[i]).to.have.property('subjects');
+                    expect(res.body.editions[i]).to.have.property('publishers');
+                    expect(res.body.editions[i]).to.have.property('publishDate');
+                    expect(res.body.editions[i]).to.have.property('publishPlaces');
+                    expect(res.body.editions[i]).to.have.property('series');
+                    expect(res.body.editions[i]).to.have.property('bookCover');
+                    expect(res.body.editions[i]).to.have.property('physicalFormat');
+                    expect(res.body.editions[i]).to.have.property('editionName');
+                    expect(res.body.editions[i]).to.have.property('isbn13');
+                    expect(res.body.editions[i]).to.have.property('isbn10');
+                    expect(res.body.editions[i]).to.have.property('works');
+                    expect(res.body.editions[i]).to.have.property('numPages');
+                }
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL27448W/0', function () {
+    it('should return an error due to invalid page number (less than 1)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL27448W/0')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('page must be 1 or greater');
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/editions/OL27448W/1000', function () {
+    it('should return an error due to invalid page number (no editions past page 16)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/editions/OL27448W/1000')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('page is out of bounds');
                 done();
             });
     });
@@ -115,6 +277,7 @@ describe('GET /api/booksApi/books/OL26451897M', function () {
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('key').to.match(/^OL\d+M$/);
                 expect(res.body).to.have.property('title');
                 expect(res.body).to.have.property('description');
                 expect(res.body).to.have.property('authors');
@@ -146,6 +309,10 @@ describe('GET /api/booksApi/books/OL27448W', function () {
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
                 expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('invalid ID');
                 done();
             });
     });
@@ -187,49 +354,47 @@ describe('GET /api/booksApi/searchBooks/lord+of+the+rings', function () {
 describe('GET /api/booksApi/searchBooks/OL27448W', function () {
     it('should return information about the top 9 search results ' +
         'for the given OLID (as there are only 9 results)', function (done) {
-        chai.request(server)
-            .get('/api/booksApi/searchBooks/OL27448W')
-            .set({ "Authorization": `Bearer ${access_token}` })
-            .end((err, res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(9);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
-                expect(res.body).to.have.property('numOnPage').to.equal(9);
-                expect(res.body).to.have.property('results').to.be.an('array');
-                for (let i = 0; i < res.body.results.length; i++) {
-                    expect(res.body.results[i]).to.have.property('title');
-                    expect(res.body.results[i]).to.have.property('subtitle');
-                    expect(res.body.results[i]).to.have.property('authors');
-                    expect(res.body.results[i]).to.have.property('subjects');
-                    expect(res.body.results[i]).to.have.property('firstSentence');
-                    expect(res.body.results[i]).to.have.property('bookCover');
-                    expect(res.body.results[i]).to.have.property('firstPublishYear');
-                    expect(res.body.results[i]).to.have.property('medianNumPages');
-                    expect(res.body.results[i]).to.have.property('numEditions');
-                    expect(res.body.results[i]).to.have.property('editionIds');
-                    expect(res.body.results[i]).to.have.property('ratingsAverage');
-                    expect(res.body.results[i]).to.have.property('numRatingsTotal');
-                    expect(res.body.results[i]).to.have.property('ratingsBreakdown');
-                }
-                done();
-            });
-    });
+            chai.request(server)
+                .get('/api/booksApi/searchBooks/OL27448W')
+                .set({ "Authorization": `Bearer ${access_token}` })
+                .end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.an('object');
+                    expect(res.body).to.have.property('numFound').to.equal(9);
+                    expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
+                    expect(res.body).to.have.property('numOnPage').to.equal(9);
+                    expect(res.body).to.have.property('results').to.be.an('array');
+                    for (let i = 0; i < res.body.results.length; i++) {
+                        expect(res.body.results[i]).to.have.property('title');
+                        expect(res.body.results[i]).to.have.property('subtitle');
+                        expect(res.body.results[i]).to.have.property('authors');
+                        expect(res.body.results[i]).to.have.property('subjects');
+                        expect(res.body.results[i]).to.have.property('firstSentence');
+                        expect(res.body.results[i]).to.have.property('bookCover');
+                        expect(res.body.results[i]).to.have.property('firstPublishYear');
+                        expect(res.body.results[i]).to.have.property('medianNumPages');
+                        expect(res.body.results[i]).to.have.property('numEditions');
+                        expect(res.body.results[i]).to.have.property('editionIds');
+                        expect(res.body.results[i]).to.have.property('ratingsAverage');
+                        expect(res.body.results[i]).to.have.property('numRatingsTotal');
+                        expect(res.body.results[i]).to.have.property('ratingsBreakdown');
+                    }
+                    done();
+                });
+        });
 });
 
 describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn', function () {
-    it('should return a results array with the message "No results." (as no results are found)', function (done) {
+    it('should return an error as no results are found', function (done) {
         chai.request(server)
             .get('/api/booksApi/searchBooks/GZPGJaA6nGLihNsn')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(404);
                 expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(0);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(404);
+                expect(res.body.error).to.have.property('message').to.equal('no search results found');
                 done();
             });
     });
@@ -267,37 +432,65 @@ describe('GET /api/booksApi/searchBooks/lord+of+the+rings/2', function () {
     });
 });
 
+describe('GET /api/booksApi/searchBooks/lord+of+the+rings/0', function () {
+    it('should return an error as the page is out of bounds (less than 1)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/searchBooks/lord+of+the+rings/0')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('page must be 1 or greater');
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/searchBooks/lord+of+the+rings/1000', function () {
+    it('should return an error as the page is out of bounds (no results past page 83)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/searchBooks/lord+of+the+rings/1000')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('page is out of bounds');
+                done();
+            });
+    });
+});
+
 describe('GET /api/booksApi/searchBooks/OL27448W/2', function () {
-    it('should return a results array with the message "No results." (as no results are on page 2)', function (done) {
+    it('should return an error as the page is out of bounds (there are no results on page 2)', function (done) {
         chai.request(server)
             .get('/api/booksApi/searchBooks/OL27448W/2')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(400);
                 expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(9);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(10);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(400);
+                expect(res.body.error).to.have.property('message').to.equal('page is out of bounds');
                 done();
             });
     });
 });
 
 describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn/3', function () {
-    it('should return a results array with the message "No results." (as no results are found)', function (done) {
+    it('should return an error as the page is out of bounds (there are no results on page 3)', function (done) {
         chai.request(server)
             .get('/api/booksApi/searchBooks/GZPGJaA6nGLihNsn/3')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(404);
                 expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(0);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(20);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res.body).to.have.property('error');
+                expect(res.body.error).to.have.property('status').to.equal(404);
+                expect(res.body.error).to.have.property('message').to.equal('no search results found');
                 done();
             });
     });
