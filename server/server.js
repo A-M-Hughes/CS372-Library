@@ -6,7 +6,6 @@ const booksApiRoutes = require('./routes/booksApiRoutes');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
-const cors = require('cors');
 
 // MIDDLEWARE:
 app.use(bodyParser.urlencoded({ extended: false }));
