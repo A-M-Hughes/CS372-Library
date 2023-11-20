@@ -5,13 +5,11 @@ const authRoutes = require('./routes/authRoutes');
 const booksApiRoutes = require('./routes/booksApiRoutes');
 const bodyParser = require('body-parser');
 const app = express();
-const cors = require('cors')
 
 // MIDDLEWARE:
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
 
 // ROUTES:
 
