@@ -1,35 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In Page</title>
-</head>
-
-<div class="form-container" [formGroup]="loginForm">
-  <h2 class="center-text">Login</h2>
-
-  <!-- Input group for email -->
-  <span class="required-marker error-text">*</span>
-  <div class="input-group">
-    <label for="loginEmail"></label>
-    <input type="email" id="loginEmail" formControlName="email" placeholder="Email" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)" class="error-text">Email is required</div>
-    <div *ngIf="loginForm.get('email')?.hasError('email') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)" class="error-text">Invalid email format</div>
-  </div>
-
-  <!-- Input group for password -->
-  <span class="required-marker error-text">*</span>
-  <div class="input-group">
-    <label for="loginPassword"></label>
-    <input type="password" id="loginPassword" formControlName="password" placeholder="Password" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="loginForm.get('password')?.hasError('required') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)" class="error-text">Password is required</div>
-  </div>
-
-  <!-- Container for login button -->
-  <div class="button-container">
-    <button type="submit" (click)="login()" class="green-button">Login</button>
-  </div>
+<div class="centerDivStyles">
+  <h2>Login</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Email: </label>
+    <br>
+    <input type="email" [(ngModel)]="email" name="email" required>
+    <br>
+    <label>Password: </label>
+    <br>
+    <input type="password" [(ngModel)]="password" name="password" required>
+    <br>
+    <button class="submitButton" type="submit">Submit</button>
+  </form>
 </div>

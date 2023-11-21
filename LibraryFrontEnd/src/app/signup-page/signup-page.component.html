@@ -1,62 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up Page</title>
-</head>
-
-<div class="form-container" [formGroup]="signupForm">
-  <h2 class="center-text">Sign Up</h2>
-
-  <!-- Required marker and input for First Name -->
-  <span class="required-marker" class="error-text">*</span>
-  <div class="input-group">
-    <label for="firstName"></label>
-    <input type="text" id="firstName" [required]="true" formControlName="firstName" placeholder="First Name" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="signupForm.get('firstName')?.hasError('required') && signupForm.get('firstName')?.touched" class="error-text">First Name is required</div>
-  </div>
-
-  <!-- Required marker and input for Last Name -->
-  <span class="required-marker" class="error-text">*</span>
-  <div class="input-group">
-    <label for="lastName"></label>
-    <input type="text" id="lastName" [required]="true" formControlName="lastName" placeholder="Last Name" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="signupForm.get('lastName')?.hasError('required') && signupForm.get('lastName')?.touched" class="error-text">Last Name is required</div>
-  </div>
-
-  <!-- Required marker and input for Email -->
-  <span class="required-marker" class="error-text">*</span>
-  <div class="input-group">
-    <label for="signupEmail"></label>
-    <input type="email" id="signupEmail" [required]="true" pattern="^.+@.+\..+$" formControlName="email" placeholder="Email" />
-    <!-- Display error text if the field is required and left empty or if the email format is invalid -->
-    <div *ngIf="signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched" class="error-text">Email is required</div>
-    <div *ngIf="signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched" class="error-text">Invalid email format</div>
-  </div>
-
-  <!-- Required marker and input for Password -->
-  <span class="required-marker" class="error-text">*</span>
-  <div class="input-group">
-    <label for="signupPassword"></label>
-    <input type="password" id="signupPassword" [required]="true" formControlName="password" placeholder="Password" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched" class="error-text">Password is required</div>
-  </div>
-
-  <!-- Required marker and input for Confirm Password -->
-  <span class="required-marker" class="error-text">*</span>
-  <div class="input-group">
-    <label for="confirmPassword"></label>
-    <input type="password" id="confirmPassword" [required]="true" formControlName="confirmPassword" placeholder="Confirm Password" />
-    <!-- Display error text if the field is required and left empty -->
-    <div *ngIf="signupForm.get('confirmPassword')?.hasError('required') && signupForm.get('confirmPassword')?.touched" class="error-text">Please confirm your password</div>
-  </div>
-
-  <!-- Button to submit the form -->
-  <div class="button-container">
-    <button type="submit" (click)="signup()" class="green-button">Sign Up</button>
-  </div>
+<div class="centerDivStyles">
+  <h2>Register</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Email: </label>
+    <br>
+    <input type="email" [(ngModel)]="email" name="email" required>
+    <br>
+    <label>Password: </label>
+    <br>
+    <input type="password" [(ngModel)]="password" name="password" required>
+    <br>
+    <button class="submitButton" type="submit">Submit</button>
+  </form>
 </div>
