@@ -11,7 +11,7 @@ let access_token, refresh_token, removeID, emailToken;
 //Make random account credentials
 const randomEmail = Math.random().toString(36).substring(8) + "@gmail.com";
 const randomPass = Math.random().toString(36).substring(0).repeat(2);
-console.log(randomEmail + " | " + randomPass);
+const randomName = Math.random().toString(36).substring(2);
 
 //Wait for server to connect to database
 before(function (done) {
@@ -26,13 +26,12 @@ describe('POST /api/register', () => {
     after(async () => {
         const user = await User.findOne({ email: randomEmail });
         emailToken = user.emailToken;
-        console.log(emailToken);
     });
 
     it('should return a registeration success response', (done) => {
         chai.request(server)
             .post('/api/register')
-            .send({ "email": randomEmail, "password": randomPass })
+            .send({ "email": randomEmail, "name": randomName, "password": randomPass })
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.have.property('success');
@@ -46,7 +45,7 @@ describe('POST /api/register', () => {
 
                 access_token = res.body.success.accessToken;
                 refresh_token = res.body.success.refreshToken;
-                id = res.body.success.id;
+                removeID = res.body.success.user.id;
                 done();
             });
     });
