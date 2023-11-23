@@ -222,13 +222,9 @@ describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn', function () {
             .get('/api/booksApi/searchBooks/GZPGJaA6nGLihNsn')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
+                expect(res).to.have.status(404);
                 expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(0);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res.body.error.message).to.equal('no search results found');
                 done();
             });
     });
@@ -272,13 +268,7 @@ describe('GET /api/booksApi/searchBooks/OL27448W/2', function () {
             .get('/api/booksApi/searchBooks/OL27448W/2')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(9);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(10);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res.body.error.message).to.equal('page is out of bounds');
                 done();
             });
     });
@@ -290,13 +280,8 @@ describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn/3', function () {
             .get('/api/booksApi/searchBooks/GZPGJaA6nGLihNsn/3')
             .set({ "Authorization": `Bearer ${access_token}` })
             .end((err, res) => {
-                expect(res).to.have.status(200);
-                expect(res.body).to.be.an('object');
-                expect(res.body).to.have.property('numFound').to.equal(0);
-                expect(res.body).to.have.property('indexOfFirstResult').to.equal(20);
-                expect(res.body).to.have.property('numOnPage').to.equal(0);
-                expect(res.body).to.have.property('results').to.be.an('array').that.has.lengthOf(1);
-                expect(res.body.results[0]).to.equal('No results.');
+                expect(res).to.have.status(404);
+                expect(res.body.error.message).to.equal('no search results found');
                 done();
             });
     });
