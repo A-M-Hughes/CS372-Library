@@ -22,13 +22,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 18
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 18
         cache: 'npm'
     - name: 'Create env file'
       run: |
         echo "${{ secrets.ENV }}" > .env
+      working-directory: ./server
     - run: npm install
+      working-directory: ./server
     - run: npm test
+      working-directory: ./server
