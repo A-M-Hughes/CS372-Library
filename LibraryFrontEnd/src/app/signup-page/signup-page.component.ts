@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup-page',
@@ -7,37 +9,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./signup-page.component.css'],
 })
 export class SignupPageComponent {
-  signupForm: FormGroup;
+  constructor(private http: HttpClient, private router: Router){}
 
-  constructor(private fb: FormBuilder) {
-    this.signupForm = this.createSignupForm();
-  }
+  email: string = '';
+  password: string = '';
 
-  //Logic for signing up goes here
-  signup() {
-    // Check if the passwords match
-    if (this.signupForm.value.password !== this.signupForm.value.confirmPassword) {
-      console.error('Passwords do not match');
-      return;
-    }
+  apiUrl: string = environment.apiurl
 
-     //Check each control and mark as touched if empty
-    Object.values(this.signupForm.controls).forEach(control => {
-      if (control.value === '' && control.hasError('required')) {
-        control.markAsTouched();
+  onSubmit() {
+    const registrationData = {
+      email: this.email,
+      password: this.password,
+    };
+
+    this.http.post(`${this.apiUrl}/register`, registrationData)
+    .subscribe((response: any) => {
+      console.log('Registration successful!', response);
+      const data = {
+        token: response.success.accessToken,
+        refresh: response.success.refreshToken
       }
-    });
-
-    console.log(this.signupForm.value);
-  }
-
-  private createSignupForm(): FormGroup {
-    return this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
+  
+      localStorage.setItem("jwt-auth-token", data.token);
+      localStorage.setItem("jwt-refr-token", data.refresh);
+  
+      this.router.navigate(['/home']);
+    }, (error: any) => {
+      console.error('Registration failed.', error);
     });
   }
+
+
 }
