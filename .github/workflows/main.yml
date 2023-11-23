@@ -27,6 +27,8 @@ jobs:
       with:
         node-version: 18
         cache: 'npm'
+        cache-dependency-path: ./server
+      
     - name: 'Create env file'
       run: |
         echo "${{ secrets.ENV }}" > .env
