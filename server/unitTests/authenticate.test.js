@@ -9,10 +9,12 @@ chai.use(chaiHTTP);
 let email_reset_token, PWD_reset_token, access_token, refresh_token, removeID, emailToken;
 
 const randomPass = Math.random().toString(36).substring(0).repeat(2);
+const randomName = Math.random().toString(36).substring(2);
 const randomEmail = Math.random().toString(36).substring(8) + "@gmail.com";
 const changeRandomEmail = Math.random().toString(36).substring(8) + "@gmail.com";
-console.log(randomEmail + "  |  " + randomPass);
-before(function (done) {
+
+
+before(function (done) { //This waits for the connection to the DB to be set up before running the tests
     this.timeout(4000);
     setTimeout(done, 3000);
 });
@@ -22,13 +24,12 @@ describe('POST /api/register', () => {
     after(async () => {
         const user = await User.findOne({ email: randomEmail });
         emailToken = user.emailToken;
-        console.log(emailToken);
     });
 
     it('should return a registeration success response', (done) => {
         chai.request(server)
             .post('/api/register')
-            .send({ "email": randomEmail, "password": randomPass })
+            .send({ "email": randomEmail, "name": randomName, "password": randomPass })
             .end((err, res) => {
                 expect(res).to.have.status(200);
                 expect(res.body).to.have.property('success');
@@ -42,7 +43,7 @@ describe('POST /api/register', () => {
 
                 access_token = res.body.success.accessToken;
                 refresh_token = res.body.success.refreshToken;
-                id = res.body.success.id;
+                removeID = res.body.success.user.id;
                 done();
             });
     });
@@ -181,8 +182,7 @@ describe('POST /api/changeEmailConfirm', () => {
 
 after(async () => {
     try {
-        await User.deleteOne({ id: removeID });
-        console.log("data deleted");
+        await User.deleteOne({ _id: removeID });
     } catch (err) {
         console.error(err);
     }

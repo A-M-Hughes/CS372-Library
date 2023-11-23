@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const booksApiRoutes = require('./routes/booksApiRoutes');
+const collectionRoutes = require('./routes/collectionRoutes');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
@@ -27,6 +28,8 @@ app.use('/api', authRoutes);
 
 //Access and host the routes needed for book and OpenLibrary data
 app.use('/api/booksApi', booksApiRoutes);
+
+app.use('/api/collections', collectionRoutes);
 
 //This is the 404 Route. THIS MUST REMAIN LAST IT CATCHES ALL OTHER GET REQUESTS 
 app.get('*', function (req, res) {

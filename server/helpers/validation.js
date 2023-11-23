@@ -5,7 +5,7 @@ const Joi = require('joi');
 //Validation for the register request, ensures password is long enough and email is an email
 const registerSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
-    "name": Joi.string().min(2).max(25).required,
+    "name": Joi.string().min(2).max(25).required(),
     "password": Joi.string().min(10).max(255).required(),
 });
 
@@ -18,10 +18,25 @@ const loginSchema = Joi.object({
 //Validation for the email schema
 const emailSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
-})
+});
+
+//Validation for add book
+const addBookSchema = Joi.object({
+    "title": Joi.string().min(2).max(40).required(),
+    "author": Joi.string().min(2).max(25).required(),
+    "ISBN": Joi.string().required(),
+    "coverLink": Joi.string().required(),
+    "pageNumber": Joi.string().required(),
+    "publishedYear": Joi.string().required(),
+    "rating": Joi.string().required(),
+    "genres":  Joi.array().items(
+        Joi.string()
+    ),
+});
 
 module.exports = {
     registerSchema,
     loginSchema,
-    emailSchema
+    emailSchema,
+    addBookSchema
 }
