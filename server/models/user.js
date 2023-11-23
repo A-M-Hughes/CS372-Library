@@ -59,6 +59,16 @@ const userSchema = new mongoose.Schema({
                 default: null,
             },
         }
+    },
+    bookLists: {
+        ownedBooks: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'ownedBooks'
+        },
+        recommendations: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'recommendations'
+        }
     }
 });
 

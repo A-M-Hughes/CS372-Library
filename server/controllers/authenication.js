@@ -16,7 +16,7 @@ const register = async (req, res) => {
         const { error } = registerSchema.validate(req.body, { abortEarly: false }); //Ensure request body is in the proper format
 
         if (error) { //If there was an error validating then send an error
-            res.status(400).json({ status: 400, message: 'INPUT_ERROR', errors: error.details, original: error._original });
+            res.status(400).json({ error: {status: 400, message: 'INPUT_ERROR', errors: error.details, original: error._original }});
         } else {
             //hash the password into the database
             const salt = await bcrypt.genSalt(10); //wait for the salt to be generated
