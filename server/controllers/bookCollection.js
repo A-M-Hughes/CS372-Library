@@ -29,7 +29,7 @@ const addBook = async (req, res) => {
                 return;
             }
 
-            let existingBookList = user.bookLists.ownedBooks //Grabs existing book collection list if exists
+            let existingBookList = user.bookLists.ownedBooks; //Grabs existing book collection list if exists
 
             //if there is no active mongodb record for this account's book list, create a new record
             if (!existingBookList) {
@@ -71,10 +71,10 @@ const addBook = async (req, res) => {
             }
             res.status(200).json({ success: { status: 200, message: 'BOOK_ADDED' } });
         } else {
-            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
         }
     } catch (error) {
-        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
     }
 }
 
@@ -118,10 +118,10 @@ const deleteBook = async (req, res) => {
             }
 
         } else {
-            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
         }
     } catch (error) {
-        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
     }
 }
 
@@ -142,10 +142,10 @@ const getBooks = async (req, res) => {
             res.status(200).json({ success: { status: 200, message: "BOOKS_FOUND", books: books.books } });
 
         } else {
-            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+            res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
         }
     } catch (error) {
-        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } })
+        res.status(400).json({ error: { status: 400, message: "BAD_REQUEST" } });
     }
 }
 

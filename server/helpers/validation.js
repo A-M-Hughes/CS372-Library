@@ -18,7 +18,7 @@ const loginSchema = Joi.object({
 //Validation for the email schema
 const emailSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
-})
+});
 
 //Validation for add book
 const addBookSchema = Joi.object({
@@ -32,7 +32,7 @@ const addBookSchema = Joi.object({
     "genres":  Joi.array().items(
         Joi.string()
     ),
-})
+});
 
 module.exports = {
     registerSchema,
