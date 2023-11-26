@@ -13,6 +13,7 @@ export class SignupPageComponent {
 
   email: string = '';
   password: string = '';
+  name: string = '';
 
   apiUrl: string = environment.apiurl
 
@@ -20,6 +21,7 @@ export class SignupPageComponent {
     const registrationData = {
       email: this.email,
       password: this.password,
+      name: this.name,
     };
 
     this.http.post(`${this.apiUrl}/register`, registrationData)
