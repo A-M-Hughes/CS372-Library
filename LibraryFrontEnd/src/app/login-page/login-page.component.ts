@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login-page',
@@ -7,28 +9,31 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent {
-  loginForm: FormGroup;
+  constructor(private http: HttpClient, private router: Router) { }
+  email: string = '';
+  password: string = '';
+  apiUrl = environment.apiurl;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.createLoginForm();
-  }
+  onSubmit() {
+    const loginData = {
+      email: this.email,
+      password: this.password
+    }
 
-  //Logic for logging in goes here
-  login() {
+    this.http.post(`${this.apiUrl}/login`, loginData)
+      .subscribe((response: any) => {
+        console.log('Registration successful!', response);
 
-     //Checks each control to see if they are empty
-     Object.values(this.loginForm.controls).forEach(control => {
-      if (control.value === '' && control.hasError('required')) {
-        control.markAsTouched();
-      }
-    });
-    console.log(this.loginForm.value);
-  }
+        const authToken = response?.success?.accessToken;
+        if (authToken) {
+          localStorage.setItem("jwt-auth-token", authToken);
+        } else {
+          console.error('Auth token not found in the response')
+        }
 
-  private createLoginForm(): FormGroup {
-    return this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-    });
+        this.router.navigate(['/home']);
+      }, (error: any) => {
+        console.error('Login failed.', error);
+      });
   }
 }
