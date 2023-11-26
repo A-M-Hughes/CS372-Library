@@ -15,9 +15,11 @@ const cors = require('cors');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors({origin: ['http://localhost:4200', 'http://localhost:4000'],
-methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-credentials: true, }));
+//app.use(cors({origin: ['http://localhost:4200', 'http://localhost:4000'],
+//methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//credentials: true, }));
+
+app.use(cors());
 
 // ROUTES:
 
