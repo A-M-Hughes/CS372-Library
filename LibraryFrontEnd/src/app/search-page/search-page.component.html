@@ -1,0 +1,16 @@
+<input [(ngModel)]="searchQuery" placeholder="Enter your search query" />
+<button (click)="search()">Search</button>
+
+<div *ngIf="searchResults.length > 0">
+    <h2>Search Results</h2>
+    <div *ngFor="let book of searchResults">
+        <div>
+            <img *ngIf="book.bookCover && book.bookCover !== 'No book cover provided.'" [src]="book.bookCover"
+                alt="Book Cover" />
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.subtitle || 'No subtitle provided.' }}</p>
+            <p>Authors: {{ displayAuthors(book.authors) }}</p>
+        </div>
+        <hr />
+    </div>
+</div>
