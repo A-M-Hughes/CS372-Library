@@ -35,8 +35,7 @@ app.get('*', function (req, res) {
 
 require('dotenv').config();
 const PORT = process.env.PORT || 5050;
-const connectString = `${process.env.DB_PROTOCOL}://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}?${process.env.DB_PARAMS}`;
-mongoose.connect(connectString,
+mongoose.connect(process.env.DB_URI,
     {
         autoIndex: true,
     }).then(() => {

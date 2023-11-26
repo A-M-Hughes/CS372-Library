@@ -59,7 +59,7 @@ const register = async (req, res) => {
 
             await sendEmailConfirmation(user); //send email to the user
 
-            res.status(200).header().json({ //if there has been no errors, send success status to user
+            res.status(200).json({ //if there has been no errors, send success status to user
                 success: {
                     status: 200,
                     message: 'REGISTER_SUCCESS',
