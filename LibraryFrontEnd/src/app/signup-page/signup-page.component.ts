@@ -24,7 +24,7 @@ export class SignupPageComponent {
       name: this.name,
     };
 
-    this.http.post(`http://${this.apiUrl}/register`, registrationData)
+    this.http.post(`${this.apiUrl}/register`, registrationData)
     .subscribe((response: any) => {
       console.log('Registration successful!', response);
       const data = {

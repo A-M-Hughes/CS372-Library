@@ -1,2 +1,4 @@
 node_modules/
 .env
+environment.development.ts
+envrionment.ts

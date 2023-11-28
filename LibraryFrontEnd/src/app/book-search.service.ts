@@ -21,8 +21,8 @@ export class BookSearchService {
       Authorization: `Bearer ${this.authToken}`,
     });
 
-    //return this.http.get(`${this.apiUrl}/api/booksApi/searchBooks/${query}/${page}`, { headers })
+    return this.http.get(`${this.apiUrl}/api/booksApi/searchBooks/${query}/${page}`, { headers })
     
-    return this.http.get(`http://${this.apiUrl}/booksApi/searchBooks/${encodedQuery}/${page}`, {headers, withCredentials: true })
+    
   }
 }
