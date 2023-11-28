@@ -23,6 +23,6 @@ export class BookSearchService {
 
     //return this.http.get(`${this.apiUrl}/api/booksApi/searchBooks/${query}/${page}`, { headers })
     
-    return this.http.get(`http://${this.apiUrl}/api/booksApi/searchBooks/${encodedQuery}/${page}`, {headers, withCredentials: true })
+    return this.http.get(`http://${this.apiUrl}/booksApi/searchBooks/${encodedQuery}/${page}`, {headers, withCredentials: true })
   }
 }

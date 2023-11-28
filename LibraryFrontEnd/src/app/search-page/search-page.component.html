@@ -3,14 +3,25 @@
 
 <div *ngIf="searchResults.length > 0">
     <h2>Search Results</h2>
-    <div *ngFor="let book of searchResults">
-        <div>
-            <img *ngIf="book.bookCover && book.bookCover !== 'No book cover provided.'" [src]="book.bookCover"
-                alt="Book Cover" />
-            <h3>{{ book.title }}</h3>
-            <p>{{ book.subtitle || 'No subtitle provided.' }}</p>
-            <p>Authors: {{ displayAuthors(book.authors) }}</p>
-        </div>
-        <hr />
-    </div>
+    <table class="book-table">
+        <thead>
+            <tr>
+                <th>Book Cover</th>
+                <th>Title</th>
+                <th>Subtitle</th>
+                <th>Authors</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of searchResults">
+                <td>
+                    <img *ngIf="book.bookCover && book.bookCover !== 'No book cover provided.'" [src]="book.bookCover"
+                        alt="Book Cover" />
+                </td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.subtitle || 'No subtitle provided.' }}</td>
+                <td>{{ displayAuthors(book.authors) }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
