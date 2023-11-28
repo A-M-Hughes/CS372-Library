@@ -44,7 +44,6 @@ Thumbs.db
 # Environment stuff
 # Ignore all environment files
 src/environments/*.ts
-src/environments/environment.development.ts
 
 # Except for the example environment
 !src/environments/environment-example/
