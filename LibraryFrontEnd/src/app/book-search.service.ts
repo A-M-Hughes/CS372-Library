@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 })
 export class BookSearchService {
   private apiUrl = environment.apiurl
-  //private apiUrl = 'http://localhost:4000';
+  
   private authToken = localStorage.getItem("jwt-auth-token");
 
   constructor(private http: HttpClient) { }
@@ -21,7 +21,7 @@ export class BookSearchService {
       Authorization: `Bearer ${this.authToken}`,
     });
 
-    return this.http.get(`${this.apiUrl}/api/booksApi/searchBooks/${query}/${page}`, { headers })
+    return this.http.get(`${this.apiUrl}/booksApi/searchBooks/${query}/${page}`, { headers })
     
     
   }
