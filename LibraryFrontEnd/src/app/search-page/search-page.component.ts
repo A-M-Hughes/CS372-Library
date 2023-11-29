@@ -45,7 +45,7 @@ export class SearchPageComponent implements OnInit{
       ISBN: "No ISBN provided.",
       coverLink: book.bookCover,
       genres: ["No genres provided."],
-      rating: book.ratingsAverage,
+      rating: String(book.ratingsAverage),
       publishedYear: String(book.firstPublishYear) || '0'
     };
 
