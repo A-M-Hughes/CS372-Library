@@ -16,6 +16,7 @@ import { TrendingBookListComponent } from './trending-book-list/trending-book-li
 import { BookCardComponent } from './book-card/book-card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchPageComponent } from './search-page/search-page.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     TrendingBookListComponent,
     BookCardComponent,
     DashboardComponent,
+    SearchPageComponent
   ],
   imports: [
     BrowserModule,
