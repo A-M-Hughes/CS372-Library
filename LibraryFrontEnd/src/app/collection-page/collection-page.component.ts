@@ -37,5 +37,24 @@ export class CollectionPageComponent implements OnInit{
       return rating;
     }
   }
+
+  removeFromCollection(bookID: string) {
+    this.booksCollectionService.deleteBookFromCollection(bookID).subscribe({
+      next: (data) => {
+        console.log('Book removed successfully', data);
+        this.refreshCollection();
+      },
+      error: (error) => {
+        console.error('Error removing book from collection', error);
+      }
+    });
+  }
   
+  private refreshCollection() {
+    this.booksCollectionService.getAllBooksFromCollection().subscribe((res: any) => {
+      this.collectedBooks = res.success.books;
+      console.log(res);
+    });
+  }
+
 }

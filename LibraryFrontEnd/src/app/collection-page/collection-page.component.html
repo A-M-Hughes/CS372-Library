@@ -16,7 +16,7 @@
                 <td>
                     <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" />
                 </td>
-                <td>{{ book.title }}</td>
+                <td>{{ book.title }}<button (click)="removeFromCollection(book._id)">Remove From Collection</button></td>
                 <td>{{ displayAuthors(book.author) }}</td>
                 <td>{{ displayRating(book.rating) }}</td>
             </tr>
