@@ -22,9 +22,8 @@ const emailSchema = Joi.object({
 
 //Validation for add book
 const addBookSchema = Joi.object({
-    "title": Joi.string().min(2).max(40).required(),
-    "author": Joi.string().min(2).max(25).required(),
-    "ISBN": Joi.string().required(),
+    "title": Joi.string().min(2).max(80).required(),
+    "author": Joi.string().min(2).max(80).required(),
     "coverLink": Joi.string().required(),
     "pageNumber": Joi.string().required(),
     "publishedYear": Joi.string().required(),
@@ -34,9 +33,17 @@ const addBookSchema = Joi.object({
     ),
 });
 
+const genresSchema = Joi.object({
+    "genre": Joi.string(),
+    "genres": Joi.array().items(
+        Joi.string()
+    )
+})
+
 module.exports = {
     registerSchema,
     loginSchema,
     emailSchema,
-    addBookSchema
+    addBookSchema,
+    genresSchema
 }

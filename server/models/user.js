@@ -68,8 +68,16 @@ const userSchema = new mongoose.Schema({
         recommendations: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'recommendations'
+        },
+        badRecommendations: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'do not recommend'
         }
-    }
+    },
+    genres: [{
+        type: String,
+        required: true
+    }],
 });
 
 module.exports = mongoose.model('User', userSchema);
