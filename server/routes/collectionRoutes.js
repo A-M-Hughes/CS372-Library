@@ -18,7 +18,7 @@ router.get('/getBooks', verifyToken, collectionController.getBooks);
 
 router.post('/addGenre', verifyToken, collectionController.addGenre);
 
-router.delete('/deleteGenre', verifyToken, collectionController.deleteGenre)
+router.delete('/deleteGenre', verifyToken, collectionController.deleteGenre);
 
 router.get('/getGenres', verifyToken, collectionController.getGenres);
 

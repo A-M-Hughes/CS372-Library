@@ -38,7 +38,7 @@ const genresSchema = Joi.object({
     "genres": Joi.array().items(
         Joi.string()
     )
-})
+});
 
 module.exports = {
     registerSchema,
@@ -46,4 +46,4 @@ module.exports = {
     emailSchema,
     addBookSchema,
     genresSchema
-}
+};

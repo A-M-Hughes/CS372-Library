@@ -66,7 +66,7 @@ const createRecommendations = async (req, res) => {
 
             let recommendations = recString.split('_|');
             let results = [];
-            let urls = []
+            let urls = [];
 
             recommendations.forEach(x => {
                 const url = `https://openlibrary.org/search.json?q=${x}&limit=5&page=1`;

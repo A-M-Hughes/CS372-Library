@@ -223,7 +223,7 @@ const deleteGenre = async (req, res) => {
 
 
         const user = await User.findOne({ email: decodeAccessToken.email });
-        let genre = req.body.genre
+        let genre = req.body.genre;
         //check if user exists
         if (user) {
 

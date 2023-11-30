@@ -366,7 +366,7 @@ const searchBooks = async (req, res) => {
             res.status(404).json({ error: { status: 404, message: 'no search results found' } });
             return;
         } else if(result === 'page is out of bounds') {
-            res.status(400).json({ error: { status: 400, message: 'page is out of bounds' } })
+            res.status(400).json({ error: { status: 400, message: 'page is out of bounds' } });
         }
 
         res.send(result);

@@ -34,7 +34,7 @@ const register = async (req, res) => {
                 recommendedOnce: [],
                 recommendedTwice: [],
                 blackList: []
-            })
+            });
 
             const promises = [
                 recommendationList.save(),
