@@ -362,6 +362,13 @@ const searchBooks = async (req, res) => {
 
         const result = await openLibrarySearch(searchUrl, limit, page);
 
+        if(result === 'no search results found') {
+            res.status(404).json({ error: { status: 404, message: 'no search results found' } });
+            return;
+        } else if(result === 'page is out of bounds') {
+            res.status(400).json({ error: { status: 400, message: 'page is out of bounds' } })
+        }
+
         res.send(result);
     } catch (error) {
         console.log(`Error: ${error}`);

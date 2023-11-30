@@ -5,11 +5,11 @@ const openLibrarySearch = async (URL, limit, page) => {
     let resultJson = await getJsonFromReq(URL);
 
     if (resultJson.numFound === 0) {
-        return res.status(404).json({ error: { status: 404, message: 'no search results found' } });
+        return 'no search results found';
     }
 
     if (page > Math.ceil(resultJson.numFound / 10)) {
-        return res.status(400).json({ error: { status: 400, message: 'page is out of bounds' } });
+        return 'page is out of bounds';
     }
 
     //Parse data into a useable form (array of titles, subtitles, authors, subjects, first sentences,
