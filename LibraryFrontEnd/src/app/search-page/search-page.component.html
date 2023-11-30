@@ -1,5 +1,6 @@
-<input [(ngModel)]="searchQuery" placeholder="Enter your search query" />
-<button (click)="search()">Search</button>
+<app-navbar></app-navbar>
+<input [(ngModel)]="searchQuery" class="search-bar" placeholder="Enter your search query" />
+<button (click)="search()" class="search-button">Search</button>
 
 <div *ngIf="searchResults.length > 0">
     <h2>Search Results</h2>
