@@ -20,7 +20,7 @@ export class LoginPageComponent {
       password: this.password
     }
 
-    this.http.post(`${this.apiUrl}/login`, loginData)
+      this.http.post(`${this.apiUrl}/login`, loginData)
       .subscribe((response: any) => {
         console.log('Registration successful!', response);
 
