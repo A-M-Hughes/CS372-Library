@@ -1,0 +1,57 @@
+img {
+    margin-left: 42%;
+    width: 55%;
+    height: 90%;
+    margin-top: -32.55% ;
+    position: static;
+}
+
+.centerDivStyles {
+    margin-left: 7%;
+    margin-top: 2%;
+}
+h2{
+    font-size: 100px;
+    font-family:sans-serif;
+}
+
+.textbox{
+    padding-left: 5px;
+    width: 25%;
+    height: 45px;
+    font-size: x-large;
+    border-color: black;
+    margin-bottom: 1%;
+}
+
+.createAccount{
+    width: 25.6%;
+    height: 50px;
+    margin-bottom: 1%;
+    font-size: medium;
+    background-color: black;
+    color: white;
+    border: none;
+}
+
+.createAccount:hover{
+    background-color: #7BA668;
+    color:black
+}
+
+label{
+    margin-left: 8%;
+}
+
+.sign-in{
+    width: 25.6%;
+    height: 50px;
+    font-size: medium;
+    background-color: #7BA668;
+    border:none;
+}
+
+.sign-in:hover {
+    background-color: black;
+    color: white;
+}
