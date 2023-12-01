@@ -1,18 +1,20 @@
 <div class="centerDivStyles">
-  <h2>Register</h2>
+  <h2>Welcome!</h2>
   <form (ngSubmit)="onSubmit()">
-    <label>First Name: </label>
     <br>
-    <input type="text" [(ngModel)]="name" name="name" required>
+    <input type="text" class="textbox" placeholder="First Name" [(ngModel)]="name" name="name" required>
     <br>
-    <label>Email: </label>
+    <input type="email"class="textbox" placeholder="Email Address" [(ngModel)]="email" name="email" required>
     <br>
-    <input type="email" [(ngModel)]="email" name="email" required>
+    <input type="password"class="textbox" placeholder="Password" [(ngModel)]="password" name="password" required>
     <br>
-    <label>Password: </label>
+    <button class="createAccount" type="submit">Create Account</button>
     <br>
-    <input type="password" [(ngModel)]="password" name="password" required>
+    <label for="">Already have an account?</label>
     <br>
-    <button class="submitButton" type="submit">Submit</button>
+    <a routerLink="/login">
+      <button class="sign-in">Sign In</button>
+    </a>
   </form>
 </div>
+<img src="./assets/LoginImage2.png" alt="Login Image">
