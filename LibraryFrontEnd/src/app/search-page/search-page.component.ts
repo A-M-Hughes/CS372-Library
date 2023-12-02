@@ -37,7 +37,7 @@ export class SearchPageComponent implements OnInit{
 
 
   addToCollection(book: any) {
-    const trimmedTitle = book.title.slice(0, 40);
+    const trimmedTitle = book.title.slice(0, 80);
     const formattedBook = {
       title: trimmedTitle,
       author: Array.isArray(book.authors) ? book.authors.join(', ') : book.authors,
