@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RecomendedBookService } from '../recomended-book.service';
+import { RecomendedBookService } from '../../controllers/recommended-book-controller/recomended-book.service';
 
 @Component({
   selector: 'app-homepage',

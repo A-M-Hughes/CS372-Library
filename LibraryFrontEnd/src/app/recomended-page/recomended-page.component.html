@@ -1,6 +1,6 @@
 <div class="container">
     <app-navbar></app-navbar>
-    <h2>Collected Books</h2>
+    <h2>Recommended Books</h2>
     <table class="book-table">
         <thead>
             <tr>
@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let book of collectedBooks">
+            <tr *ngFor="let book of recommendedBooks">
                 <td>
                     <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" />
                 </td>
