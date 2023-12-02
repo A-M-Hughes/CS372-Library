@@ -13,11 +13,11 @@ const moment = require('moment');
     a user. This function should only be used with POST requests, and on a successful creation, sends a json file that
     indicates success, with the user information such as JWT access token and refresh token*/
 const register = async (req, res) => {
-    try {   
+    try {
         const { error } = registerSchema.validate(req.body, { abortEarly: false }); //Ensure request body is in the proper format
 
         if (error) { //If there was an error validating then send an error
-            res.status(400).json({ error: {status: 400, message: 'INPUT_ERROR', errors: error.details, original: error._original }});
+            res.status(400).json({ error: { status: 400, message: 'INPUT_ERROR', errors: error.details, original: error._original } });
         } else {
             //hash the password into the database
             const salt = await bcrypt.genSalt(10); //wait for the salt to be generated
@@ -43,6 +43,9 @@ const register = async (req, res) => {
 
             await Promise.all(promises);
 
+            let genres = [];
+            if (req.body.genres != null) { genres = req.body.genres; }
+
             //create new user instance with the provided information
             const user = new User({
                 email: req.body.email,
@@ -61,7 +64,8 @@ const register = async (req, res) => {
                 bookLists: {
                     recommendations: recommendationList.id,
                     badRecommendations: badRecommendations.id
-                }
+                },
+                genres: genres
             });
 
             //attempt save user into db
@@ -128,7 +132,7 @@ const login = async (req, res) => {
             const user = await User.findOne({ email: req.body.email }); //Queries database for user
 
             //check that the email exists
-            if (user) { 
+            if (user) {
                 //Check if the entered password matches the user's hashed password
                 const validatePassword = await bcrypt.compare(req.body.password, user.password);
 
@@ -167,13 +171,13 @@ const token = async (req, res) => {
     try {
         const refreshToken = req.body.refreshToken; //grabs refresh token from request
 
-         
+
         try { //decode the JWT refresh token, and then get the email and use it to get the existing tokens from the db
             const decodeRefreshToken = JWT.verify(refreshToken, process.env.SECRET_REFRESH_TOKEN);
             const user = await User.findOne({ email: decodeRefreshToken.email });
             const existingTokens = await user.security.tokens;
 
-            
+
             if (existingTokens.some(token => token.refreshToken === refreshToken)) {//check if the refresh token is in the document
                 //generate new access token because the refresh token was valid
                 const access_token = generateAccessToken(user.id, user.email);
@@ -215,11 +219,11 @@ const confirmEmailToken = async (req, res) => {
                 //check if provided email token matches the one in the user's record
                 if (emailToken === user.emailToken) { //If there is a match, then success
                     await User.updateOne({ email: decodeAccessToken.email }, { $set: { emailConfirmed: true, emailToken: null } });
-                    res.status(200).json({ success: { status: 200, message: "EMAIL_CONFIRMED" } }); 
+                    res.status(200).json({ success: { status: 200, message: "EMAIL_CONFIRMED" } });
                 } else { //Otherwise the email token is invalid
                     res.status(401).json({ error: { status: 401, message: "INVALID_EMAIL_TOKEN" } });
                 }
-            } else { 
+            } else {
                 res.status(401).json({ error: { status: 401, message: "EMAIL_ALREADY_CONFIRMED" } });
             }
         } else {
@@ -370,7 +374,7 @@ const changeEmail = async (req, res) => {
     try {
         const { error } = emailSchema.validate({ email: req.body.provisionalEmail });
 
-        if ( !error ) {
+        if (!error) {
             //Decode Access Token
             const accessToken = req.header('Authorization').split(' ')[1];
             const decodeAccessToken = JWT.verify(accessToken, process.env.SECRET_ACCESS_TOKEN);
@@ -432,7 +436,7 @@ const sendEmailConfirmation = async (user) => {
     await transport.sendMail(mailOptions, function (error, info) { //sends the mail to the user
         if (error) {
             console.log(error);
-        } 
+        }
     });
 }
 
@@ -487,14 +491,14 @@ const changeEmailConfirmation = async (user) => {
 /*  This method takes an id and email, and generates an JWT access token using the access token key and expiry env vars
     it also has a uName parameter that isn't used just in case we want to use username authenication instead */
 const generateAccessToken = (id, email, uName) => {
-    let items = {_id: id, email: email, };
+    let items = { _id: id, email: email, };
     return JWT.sign(items, process.env.SECRET_ACCESS_TOKEN, { expiresIn: process.env.ACCESS_TOKEN_EXPIRY });
 }
 
 /*  This method takes an id and email, and generates an JWT refresh token using the refresh token key and expiry env vars
     it also has a uName parameter that isn't used just in case we want to use username authenication instead */
 const generateRefreshToken = (id, email, uName) => {
-    let items = {_id: id, email: email, };
+    let items = { _id: id, email: email, };
     return JWT.sign(items, process.env.SECRET_REFRESH_TOKEN, { expiresIn: process.env.REFRESH_TOKEN_EXPIRY });
 }
 

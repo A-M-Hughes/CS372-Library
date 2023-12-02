@@ -62,9 +62,9 @@ const createRecommendations = async (req, res) => {
                 blackList.push(x);
             })
             //get recommendations
-            const recString = await generateRecommendation(bookTitles, recommendationTitles, genres, blackList);
+            const recString = await generateRecommendation(bookTitles, recommendationTitles, ['action'], blackList);
 
-            let recommendations = recString.split('_|');
+            let recommendations = recString.split('|');
             let results = [];
             let urls = [];
 
@@ -208,14 +208,14 @@ async function generateRecommendation(book_list, recommendation_list, genres, bl
     let content = "";
 
     content = 'A user likes the genres that are in this array: [' + genres + ']. The user already has the books this array: ' +
-        '[' + book_list + ']. Give me up to 5 book recommendations for this user in a single string, delimited by this string "_|". Do not include books the user owns or books from ' +
+        '[' + book_list + ']. Give me up to 5 book recommendations for this user in a single string, delimited by the pipe character |. Do not include books the user owns or books from ' +
         'this array: [' + recommendation_list + ',' + blackList + ']. Please give specific, plaintext book titles, not titles of book series. Do not give me ' +
         'the authors of the book and do not number the titles. DO NOT INCLUDE QUOTATION MARKS.';
 
     console.log(content + '\n');
 
     const stream = await openai.beta.chat.completions.stream({
-        model: 'gpt-3.5-turbo', //REPLACE WITH gpt-4 FOR PRESENTATION gpt-3.5 is cheaper so use gpt-4 for final testing!!!
+        model: 'gpt-4-1106-preview', //REPLACE WITH gpt-4 FOR PRESENTATION gpt-3.5 is cheaper so use gpt-4 for final testing!!!
         messages: [{ role: 'user', content: content }],
         stream: true,
     });
