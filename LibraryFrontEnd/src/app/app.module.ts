@@ -17,6 +17,7 @@ import { BookCardComponent } from './book-card/book-card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchPageComponent } from './search-page/search-page.component';
+import { CollectionPageComponent } from './collection-page/collection-page.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SearchPageComponent } from './search-page/search-page.component';
     TrendingBookListComponent,
     BookCardComponent,
     DashboardComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    CollectionPageComponent
   ],
   imports: [
     BrowserModule,
