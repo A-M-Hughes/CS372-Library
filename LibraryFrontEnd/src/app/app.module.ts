@@ -18,6 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { RecomendedPageComponent } from './recomended-page/recomended-page.component';
+import { CollectionPageComponent } from './collection-page/collection-page.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RecomendedPageComponent } from './recomended-page/recomended-page.compo
     BookCardComponent,
     DashboardComponent,
     SearchPageComponent,
-    RecomendedPageComponent
+    RecomendedPageComponent,
+    CollectionPageComponent
   ],
   imports: [
     BrowserModule,

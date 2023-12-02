@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BookSearchService } from '../book-search.service';
+import { BookSearchService } from '../../controllers/book-search-controller/book-search.service';
+import { BookCollectionService } from 'src/controllers/book-collection-controller/book-collection.service';
 
 @Component({
   selector: 'app-search-page',
@@ -7,7 +8,7 @@ import { BookSearchService } from '../book-search.service';
   styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit{
-  constructor(private bookSearchService: BookSearchService) {}
+  constructor(private bookSearchService: BookSearchService, private bookCollectionService: BookCollectionService) {}
 
   searchQuery: string = '';
   searchResults: any[] = [];
@@ -32,5 +33,28 @@ export class SearchPageComponent implements OnInit{
     } else {
       return 'No authors provided.';
     }
+  }
+
+
+  addToCollection(book: any) {
+    const trimmedTitle = book.title.slice(0, 40);
+    const formattedBook = {
+      title: trimmedTitle,
+      author: Array.isArray(book.authors) ? book.authors.join(', ') : book.authors,
+      pageNumber: String(book.medianNumPages) || '0',
+      coverLink: book.bookCover,
+      genres: ["No genres provided."],
+      rating: String(book.ratingsAverage),
+      publishedYear: String(book.firstPublishYear) || '0'
+    };
+
+    this.bookCollectionService.addBookToCollection(formattedBook).subscribe({
+      next: (data) => {
+        console.log('Book added successfully', data);
+      },
+      error: (error) => {
+        console.error('Error adding book to collection', error);
+      }
+    });
   }
 }

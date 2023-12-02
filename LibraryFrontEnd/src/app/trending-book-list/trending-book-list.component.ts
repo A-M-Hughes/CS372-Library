@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TrendingBookService } from '../trending-book.service';
+import { TrendingBookService } from '../../controllers/trending-book-controller/trending-book.service';
 
 @Component({
   selector: 'app-trending-book-list',
