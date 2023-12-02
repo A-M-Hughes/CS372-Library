@@ -42,7 +42,6 @@ export class SearchPageComponent implements OnInit{
       title: trimmedTitle,
       author: Array.isArray(book.authors) ? book.authors.join(', ') : book.authors,
       pageNumber: String(book.medianNumPages) || '0',
-      ISBN: "No ISBN provided.",
       coverLink: book.bookCover,
       genres: ["No genres provided."],
       rating: String(book.ratingsAverage),
