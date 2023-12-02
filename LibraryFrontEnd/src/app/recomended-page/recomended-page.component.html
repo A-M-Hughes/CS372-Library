@@ -1,0 +1,24 @@
+<div class="container">
+    <app-navbar></app-navbar>
+    <h2>Recommended Books</h2>
+    <table class="book-table">
+        <thead>
+            <tr>
+                <th>Book Cover</th>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of recommendedBooks">
+                <td>
+                    <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" />
+                </td>
+                <td>{{ book.title }}</td>
+                <td>{{ displayAuthors(book.author) }}</td>
+                <td>{{ displayRating(book.rating) }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
