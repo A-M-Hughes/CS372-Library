@@ -31,13 +31,12 @@ export class RecomendedBookService {
 
   }
 
-  deleteRecommendations() {
+  deleteRecommendations(recommendationID: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.authToken}`,
     });
-
-    return this.http.delete(`${this.apiUrl}/recommendations/deleteRecommendations`, { headers });
-
+    return this.http.delete(`${this.apiUrl}/recommendations/deleteRecommendation`, { headers, body: { "recommendationID" : recommendationID } });
   }
+  
 }

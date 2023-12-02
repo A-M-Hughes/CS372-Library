@@ -8,6 +8,8 @@
                 <th>Title</th>
                 <th>Authors</th>
                 <th>Rating</th>
+                <th>Add to Collection</th>
+                <th>Remove Recommendation</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +20,8 @@
                 <td>{{ book.title }}</td>
                 <td>{{ displayAuthors(book.author) }}</td>
                 <td>{{ displayRating(book.rating) }}</td>
+                <td><button (click)="addToCollection(book)">Add To Collection</button></td>
+                <td><button (click)="removeFromRecommendations(book._id)">Remove From Recommendations</button></td>
             </tr>
         </tbody>
     </table>

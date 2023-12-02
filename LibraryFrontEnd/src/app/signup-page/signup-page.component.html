@@ -4,9 +4,25 @@
     <br>
     <input type="text" class="textbox" placeholder="First Name" [(ngModel)]="name" name="name" required>
     <br>
-    <input type="email"class="textbox" placeholder="Email Address" [(ngModel)]="email" name="email" required>
+    <input type="email" class="textbox" placeholder="Email Address" [(ngModel)]="email" name="email" required>
     <br>
-    <input type="password"class="textbox" placeholder="Password" [(ngModel)]="password" name="password" required>
+    <input type="password" class="textbox" placeholder="Password" [(ngModel)]="password" name="password" required>
+    <br>
+    <mat-form-field type="genres" class="example-chip-list" required>
+      <mat-label>Favorite Fruits</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Enter fruits">
+        <mat-chip-row *ngFor="let genre of genres; let i = index" (removed)="remove(genre)" [editable]="true"
+          (edited)="edit(genre, $event)">
+          {{ genre }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="New Genre..." [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)" />
+      </mat-chip-grid>
+    </mat-form-field>
     <br>
     <button class="createAccount" type="submit">Create Account</button>
     <br>

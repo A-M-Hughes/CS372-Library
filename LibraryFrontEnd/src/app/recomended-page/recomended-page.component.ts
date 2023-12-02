@@ -38,4 +38,46 @@ export class RecomendedPageComponent implements OnInit {
     }
   }
 
+  removeFromRecommendations(bookID: string) {
+    this.recommendedBookService.deleteRecommendations(bookID).subscribe({
+      next: (data) => {
+        console.log('Book removed successfully', data);
+        this.refreshCollection();
+      },
+      error: (error) => {
+        console.error('Error removing book from collection', error);
+      }
+    });
+  }
+
+  private refreshCollection() {
+    this.recommendedBookService.getRecommendedBooks().subscribe((res: any) => {
+      this.recommendedBooks = res.success.books;
+      console.log(res);
+    });
+  }
+
+  addToCollection(book: any) {
+    const trimmedTitle = book.title.slice(0, 80);
+    console.log(book);
+    const formattedBook = {
+      title: trimmedTitle,
+      author: Array.isArray(book.author) ? book.author.join(', ') : book.author,
+      pageNumber: String(book.pageNumber) || '0',
+      coverLink: book.coverLink,
+      genres: ["No genres provided."],
+      rating: book.rating,
+      publishedYear: book.rating
+    };
+
+    this.booksCollectionService.addBookToCollection(formattedBook).subscribe({
+      next: (data) => {
+        console.log('Book added successfully', data);
+        this.removeFromRecommendations(book._id);
+      },
+      error: (error) => {
+        console.error('Error adding book to collection', error);
+      }
+    });
+  }
 }
