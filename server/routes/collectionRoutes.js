@@ -16,4 +16,10 @@ router.delete('/deleteBook', verifyToken, collectionController.deleteBook);
 //GET to retrieve books from collection
 router.get('/getBooks', verifyToken, collectionController.getBooks);
 
+router.post('/addGenre', verifyToken, collectionController.addGenre);
+
+router.delete('/deleteGenre', verifyToken, collectionController.deleteGenre);
+
+router.get('/getGenres', verifyToken, collectionController.getGenres);
+
 module.exports = router;

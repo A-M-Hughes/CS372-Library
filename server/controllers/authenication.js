@@ -1,5 +1,6 @@
 /* This is the authenication file that will handle the business logic needed for the aunthenication of users */
-
+const bookList = require('../models/bookList');
+const badRecs = require('../models/badRecommendations');
 const User = require('../models/user');
 const JWT = require('jsonwebtoken');
 const { registerSchema, loginSchema, emailSchema } = require('../helpers/validation');
@@ -22,6 +23,26 @@ const register = async (req, res) => {
             const salt = await bcrypt.genSalt(10); //wait for the salt to be generated
             const hashedPassword = await bcrypt.hash(req.body.password, salt); //wait for the hash to be generated
 
+            const recommendationList = new bookList({
+                accountEmail: req.body.email,
+                type: "Recommendations",
+                books: []
+            });
+
+            const badRecommendations = new badRecs({
+                accountEmail: req.body.email,
+                recommendedOnce: [],
+                recommendedTwice: [],
+                blackList: []
+            });
+
+            const promises = [
+                recommendationList.save(),
+                badRecommendations.save()
+            ];
+
+            await Promise.all(promises);
+
             //create new user instance with the provided information
             const user = new User({
                 email: req.body.email,
@@ -36,6 +57,10 @@ const register = async (req, res) => {
                         provisionalPassword: null,
                         expiry: null
                     }
+                },
+                bookLists: {
+                    recommendations: recommendationList.id,
+                    badRecommendations: badRecommendations.id
                 }
             });
 

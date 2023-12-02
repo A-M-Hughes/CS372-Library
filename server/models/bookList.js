@@ -14,15 +14,11 @@ const bookList = new mongoose.Schema({
             type: String,
             required: true
         },
-        author: {
+        author: [{
             type: String,
             required: true
-        },
-        pageNumber : {
-            type: String,
-            required: true
-        },
-        ISBN: {
+        }],
+        pageNumber: {
             type: String,
             required: true
         },
@@ -33,7 +29,6 @@ const bookList = new mongoose.Schema({
         genres: [
             {
                 type: String,
-                required: true
             }
         ],
         rating: {
