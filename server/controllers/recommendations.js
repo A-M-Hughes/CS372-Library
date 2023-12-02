@@ -62,7 +62,7 @@ const createRecommendations = async (req, res) => {
                 blackList.push(x);
             })
             //get recommendations
-            const recString = await generateRecommendation(bookTitles, recommendationTitles, ['action'], blackList);
+            const recString = await generateRecommendation(bookTitles, recommendationTitles, genres, blackList);
 
             let recommendations = recString.split('|');
             let results = [];
