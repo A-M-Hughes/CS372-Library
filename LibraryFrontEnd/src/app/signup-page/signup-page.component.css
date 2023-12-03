@@ -2,7 +2,7 @@ img {
     margin-left: 42%;
     width: 55%;
     height: 90%;
-    margin-top: -32.55% ;
+    margin-top: -41.6% ;
     position: static;
 }
 
@@ -16,7 +16,8 @@ h2{
 }
 
 .example-chip-list {
-    width: 10%
+    padding-top: 1%;
+    width: 25.5%;
 }
 
 .textbox{
