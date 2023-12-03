@@ -318,6 +318,71 @@ describe('GET /api/booksApi/books/OL27448W', function () {
     });
 });
 
+describe('GET /api/booksApi/searchBooks/lord+of+the+rings', function () {
+    it('should return information about the top 10 (at most) search results (works)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/searchBooks/lord+of+the+rings')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('numFound');
+                expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
+                expect(res.body).to.have.property('numOnPage').to.equal(10);
+                expect(res.body).to.have.property('results').to.be.an('array');
+                for (let i = 0; i < res.body.results.length; i++) {
+                    expect(res.body.results[i]).to.have.property('title');
+                    expect(res.body.results[i]).to.have.property('subtitle');
+                    expect(res.body.results[i]).to.have.property('authors');
+                    expect(res.body.results[i]).to.have.property('subjects');
+                    expect(res.body.results[i]).to.have.property('firstSentence');
+                    expect(res.body.results[i]).to.have.property('bookCover');
+                    expect(res.body.results[i]).to.have.property('firstPublishYear');
+                    expect(res.body.results[i]).to.have.property('medianNumPages');
+                    expect(res.body.results[i]).to.have.property('numEditions');
+                    expect(res.body.results[i]).to.have.property('editionIds');
+                    expect(res.body.results[i]).to.have.property('ratingsAverage');
+                    expect(res.body.results[i]).to.have.property('numRatingsTotal');
+                    expect(res.body.results[i]).to.have.property('ratingsBreakdown');
+                }
+                expect(res.body.results[0].ratingsBreakdown).to.be.an('array').that.has.lengthOf(5);
+                done();
+            });
+    });
+});
+
+describe('GET /api/booksApi/searchBooks/OL27448W', function () {
+    it('should return information about the top 9 search results ' +
+        'for the given OLID (as there are only 9 results)', function (done) {
+            chai.request(server)
+                .get('/api/booksApi/searchBooks/OL27448W')
+                .set({ "Authorization": `Bearer ${access_token}` })
+                .end((err, res) => {
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.an('object');
+                    expect(res.body).to.have.property('numFound').to.equal(9);
+                    expect(res.body).to.have.property('indexOfFirstResult').to.equal(0);
+                    expect(res.body).to.have.property('numOnPage').to.equal(9);
+                    expect(res.body).to.have.property('results').to.be.an('array');
+                    for (let i = 0; i < res.body.results.length; i++) {
+                        expect(res.body.results[i]).to.have.property('title');
+                        expect(res.body.results[i]).to.have.property('subtitle');
+                        expect(res.body.results[i]).to.have.property('authors');
+                        expect(res.body.results[i]).to.have.property('subjects');
+                        expect(res.body.results[i]).to.have.property('firstSentence');
+                        expect(res.body.results[i]).to.have.property('bookCover');
+                        expect(res.body.results[i]).to.have.property('firstPublishYear');
+                        expect(res.body.results[i]).to.have.property('medianNumPages');
+                        expect(res.body.results[i]).to.have.property('numEditions');
+                        expect(res.body.results[i]).to.have.property('editionIds');
+                        expect(res.body.results[i]).to.have.property('ratingsAverage');
+                        expect(res.body.results[i]).to.have.property('numRatingsTotal');
+                        expect(res.body.results[i]).to.have.property('ratingsBreakdown');
+                    }
+                    done();
+                });
+        });
+});
 
 describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn', function () {
     it('should return an error as no results are found', function (done) {
@@ -335,6 +400,37 @@ describe('GET /api/booksApi/searchBooks/GZPGJaA6nGLihNsn', function () {
     });
 });
 
+describe('GET /api/booksApi/searchBooks/lord+of+the+rings/2', function () {
+    it('should return information about the top 11-20 search results (works)', function (done) {
+        chai.request(server)
+            .get('/api/booksApi/searchBooks/lord+of+the+rings/2')
+            .set({ "Authorization": `Bearer ${access_token}` })
+            .end((err, res) => {
+                expect(res).to.have.status(200);
+                expect(res.body).to.be.an('object');
+                expect(res.body).to.have.property('numFound');
+                expect(res.body).to.have.property('indexOfFirstResult').to.equal(10);
+                expect(res.body).to.have.property('numOnPage').to.equal(10);
+                expect(res.body).to.have.property('results').to.be.an('array');
+                for (let i = 0; i < res.body.results.length; i++) {
+                    expect(res.body.results[i]).to.have.property('title');
+                    expect(res.body.results[i]).to.have.property('subtitle');
+                    expect(res.body.results[i]).to.have.property('authors');
+                    expect(res.body.results[i]).to.have.property('subjects');
+                    expect(res.body.results[i]).to.have.property('firstSentence');
+                    expect(res.body.results[i]).to.have.property('bookCover');
+                    expect(res.body.results[i]).to.have.property('firstPublishYear');
+                    expect(res.body.results[i]).to.have.property('medianNumPages');
+                    expect(res.body.results[i]).to.have.property('numEditions');
+                    expect(res.body.results[i]).to.have.property('editionIds');
+                    expect(res.body.results[i]).to.have.property('ratingsAverage');
+                    expect(res.body.results[i]).to.have.property('numRatingsTotal');
+                    expect(res.body.results[i]).to.have.property('ratingsBreakdown');
+                }
+                done();
+            });
+    });
+});
 
 describe('GET /api/booksApi/searchBooks/lord+of+the+rings/0', function () {
     it('should return an error as the page is out of bounds (less than 1)', function (done) {

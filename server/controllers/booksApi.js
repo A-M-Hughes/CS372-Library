@@ -376,16 +376,18 @@ const searchBooks = async (req, res) => {
         const decodeAccessToken = JWT.verify(accessToken, process.env.SECRET_ACCESS_TOKEN);
         const user = await User.findOne({ email: decodeAccessToken.email });
         const collection = await bookList.findOne({ _id: user.bookLists.ownedBooks });
-        let count = 0;
-        result.results.forEach(x => {
-            collection.books.forEach(y => {
-                if(y.title == x.title){
-                    x.inCollection = true;
-                }
-                x.number = count++;
+        if (collection) {
+            let count = 0;
+            result.results.forEach(x => {
+                collection.books.forEach(y => {
+                    if (y.title == x.title) {
+                        x.inCollection = true;
+                    }
+                    x.number = count++;
+                })
             })
-        })
-        
+        }
+
 
         res.send(result);
     } catch (error) {
