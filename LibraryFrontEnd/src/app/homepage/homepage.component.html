@@ -1,18 +1,20 @@
 <div class="homepage">
   <app-navbar></app-navbar>
-
-  <button (click)="createRecommendedButton()">Waste Sean's money button</button>
-  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 1 text goes here.'"
-    [buttonText]="'Get Started'"></app-homepage-section>
-
-  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 3 text goes here.'"
-    [buttonText]="'Start Searching'"></app-homepage-section>
-
-  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 4 text goes here.'"
-    [buttonText]="'Get Recomendations'"></app-homepage-section>
-
-  <app-homepage-section [imageSrc]="'assets/undraw_reading_re_29f8.svg'" [sectionText]="'Section 5 text goes here.'"
-    [buttonText]="'Start Collecting'"></app-homepage-section>
-
+  <img src="assets/undraw_reading_re_29f8.svg" alt="person reading">
+  <a routerLink="/search">
+    <button class="search">Search Books</button>
+  </a>
+<br>
+  <a routerLink="/dashboard">
+    <button>Explore Trending</button>
+  </a>
+  <br>
+  <a routerLink="/recommended">
+    <button class="recommend">Get Recommendations</button>
+  </a>
+<br>
+  <a routerLink="/collection">
+    <button>View Your Collection</button>
+  </a>
   <app-spinner></app-spinner>
 </div>
