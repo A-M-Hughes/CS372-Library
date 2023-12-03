@@ -4,3 +4,7 @@
     width: 100%;
     padding: 10px;
 }
+
+.finishedButton { 
+    background-color: green;
+}

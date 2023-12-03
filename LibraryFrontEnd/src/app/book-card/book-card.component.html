@@ -1,4 +1,9 @@
 <div class="book-card">
     <img class="cover" [src]="book.bookCover" alt="{{ book.title }}">
     <h3 class="title">{{ book.title }}</h3>
+    <p class="author">Author: {{ book.authors[0] }}</p>
+    <p class="rating">Rating: {{ book.rating }}</p>
+    <button *ngIf="book.inCollection === undefined" class="add-btn" [disabled]="clicked[book.number]" [id]="'b' + book.number"
+        (click)="addToCollection(book, book.number)">Add To Collection</button>
+    <button *ngIf="book.inCollection === true" [id]="'b' + book.number" class="finishedButton">book in collection</button>
 </div>

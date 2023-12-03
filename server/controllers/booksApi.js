@@ -155,9 +155,61 @@ const featured = async (req, res) => {
             featuredBooks.push({
                 olid: resultJson.works[i].key.split("/")[2],
                 title: (resultJson.works[i].title) ? resultJson.works[i].title : "No title provided.",
-                bookCover: bookCover
+                bookCover: bookCover,
+                authors: resultJson.works[i].author_name,
+                firstPublishYear: resultJson.works[i].first_publish_year,
+
+
             });
         }
+
+        const accessToken = req.header('Authorization').split(' ')[1];
+        const decodeAccessToken = JWT.verify(accessToken, process.env.SECRET_ACCESS_TOKEN);
+        const user = await User.findOne({ email: decodeAccessToken.email });
+        const collection = await bookList.findOne({ _id: user.bookLists.ownedBooks });
+        if (collection) {
+            let count = 0;
+            featuredBooks.forEach(x => {
+                collection.books.forEach(y => {
+                    if (y.title == x.title) {
+                        x.inCollection = true;
+                    }
+                    x.number = count++;
+                })
+            })
+        }
+
+        let urls = []
+        featuredBooks.forEach(x => {
+            const url = `https://openlibrary.org/search.json?q=${x.title}&limit=1&page=1`;
+            urls.push(url);
+        })
+
+        const openLibraryPromise = [ //Set up the openLibrary api urls
+            openLibrarySearch(urls[0], 1, 1),
+            openLibrarySearch(urls[1], 1, 1),
+            openLibrarySearch(urls[2], 1, 1),
+            openLibrarySearch(urls[3], 1, 1),
+            openLibrarySearch(urls[4], 1, 1),
+            openLibrarySearch(urls[5], 1, 1),
+            openLibrarySearch(urls[6], 1, 1),
+            openLibrarySearch(urls[7], 1, 1),
+            openLibrarySearch(urls[8], 1, 1),
+            openLibrarySearch(urls[9], 1, 1),
+        ];
+
+        await Promise.all(openLibraryPromise).then(x => { //make openLibrary API calls
+            featuredBooks[0].rating = x[0].results[0].ratingsAverage;
+            featuredBooks[1].rating = x[1].results[0].ratingsAverage;
+            featuredBooks[2].rating = x[2].results[0].ratingsAverage;
+            featuredBooks[3].rating = x[3].results[0].ratingsAverage;
+            featuredBooks[4].rating = x[4].results[0].ratingsAverage;
+            featuredBooks[5].rating = x[5].results[0].ratingsAverage;
+            featuredBooks[6].rating = x[6].results[0].ratingsAverage;
+            featuredBooks[7].rating = x[7].results[0].ratingsAverage;
+            featuredBooks[8].rating = x[8].results[0].ratingsAverage;
+            featuredBooks[9].rating = x[9].results[0].ratingsAverage;
+        });
 
         res.send(featuredBooks);
     } catch (error) {

@@ -57,6 +57,17 @@ export class RecomendedPageComponent implements OnInit {
     });
   }
 
+  createRecommendedButton() {
+    this.recommendedBookService.createRecommendations().subscribe({
+      next: () => {
+        console.log('Recommendations created successfully');
+      },
+      error: (error) => {
+        console.error('Error creating recommendations:', error);
+      }
+    });
+  }
+
   addToCollection(book: any) {
     const trimmedTitle = book.title.slice(0, 80);
     console.log(book);

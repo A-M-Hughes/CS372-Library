@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
+    <button (click)="createRecommendedButton()">Waste Sean's money button</button>
     <h2 class="page-title">Book Recommendations</h2>
     <div class="book-grid">
         <div *ngFor="let book of recommendedBooks" class="book-card">
@@ -13,4 +14,5 @@
             </div>
         </div>
     </div>
+    <app-spinner></app-spinner>
 </div>
