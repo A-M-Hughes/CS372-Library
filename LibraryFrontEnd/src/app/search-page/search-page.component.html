@@ -12,6 +12,7 @@
                 <th>Title</th>
                 <th>Subtitle</th>
                 <th>Authors</th>
+                <th>Ratings</th>
             </tr>
         </thead>
         <tbody>
@@ -20,11 +21,13 @@
                     <img *ngIf="book.bookCover && book.bookCover !== 'No book cover provided.'" [src]="book.bookCover"
                         alt="Book Cover" />
                 </td>
+
                 <td><div class="title">{{ book.title }}</div>  <button *ngIf="book.inCollection === undefined" [id]="'b' + book.number.toString()" class="activeButton" (click)="addToCollection(book, book.number)">Add to collection</button>
                                      <button *ngIf="book.inCollection === true" [id]="'b' + book.number.toString()" class="finishedButton">Book in collection</button>
                 </td>
                 <td>{{ book.subtitle || 'No subtitle provided.' }}</td>
                 <td>{{ displayAuthors(book.authors) }}</td>
+                <td>Rating: {{ book.ratingsAverage }}</td>
             </tr>
         </tbody>
     </table>
