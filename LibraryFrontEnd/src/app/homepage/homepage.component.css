@@ -1,0 +1,34 @@
+img {
+    float: left;
+    margin-left: 10%;
+    margin-top: 1%;
+}
+
+button {
+    margin-left: 15%;
+    background-color: gray;
+}
+button:hover {
+    background-color: rgb(103, 99, 99);
+}
+
+.search {
+    margin-top: 12%;
+}
+
+.recommend, .search {
+    background-color: #7BA668;
+}
+
+.recommend:hover , .search:hover {
+    background-color: #648e52;
+}
+
+button{
+    border:none;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 50px;
+    border-radius: 8px;
+}
+
