@@ -59,13 +59,11 @@ export class SignupPageComponent {
   edit(genre: String, event: MatChipEditedEvent) {
     const value = event.value.trim();
 
-    // Remove fruit if it no longer has a name
     if (!value) {
       this.remove(genre);
       return;
     }
 
-    // Edit existing fruit
     const index = this.genres.indexOf(genre);
     if (index >= 0) {
       this.genres[index] = value;
