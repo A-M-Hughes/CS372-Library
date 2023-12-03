@@ -1,28 +1,16 @@
+<app-navbar></app-navbar>
 <div class="container">
-    <app-navbar></app-navbar>
-    <h2>Recommended Books</h2>
-    <table class="book-table">
-        <thead>
-            <tr>
-                <th>Book Cover</th>
-                <th>Title</th>
-                <th>Authors</th>
-                <th>Rating</th>
-                <th>Add to Collection</th>
-                <th>Remove Recommendation</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let book of recommendedBooks">
-                <td>
-                    <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" />
-                </td>
-                <td>{{ book.title }}</td>
-                <td>{{ displayAuthors(book.author) }}</td>
-                <td>{{ displayRating(book.rating) }}</td>
-                <td><button (click)="addToCollection(book)">Add To Collection</button></td>
-                <td><button (click)="removeFromRecommendations(book._id)">Remove From Recommendations</button></td>
-            </tr>
-        </tbody>
-    </table>
+    <h2 class="page-title">Book Recommendations</h2>
+    <div class="book-grid">
+        <div *ngFor="let book of recommendedBooks" class="book-card">
+            <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" class="book-cover" />
+            <div class="book-details">
+                <h3>Book Title:<br> {{ book.title }}</h3>
+                <p class="author">Author: {{ displayAuthors(book.author) }}</p>
+                <p class="rating">Rating: {{ displayRating(book.rating) }}</p>
+                <button class="add-btn" (click)="addToCollection(book)">Add To Collection</button>
+                <button class="remove-btn" (click)="removeFromRecommendations(book._id)">Remove From Recommendations</button>
+            </div>
+        </div>
+    </div>
 </div>
