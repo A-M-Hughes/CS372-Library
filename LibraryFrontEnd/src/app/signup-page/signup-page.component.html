@@ -11,7 +11,7 @@
     <mat-form-field type="genres" class="example-chip-list" required>
       <mat-label>Favorite Genres</mat-label>
       <mat-chip-grid #chipGrid aria-label="Enter fruits">
-        <mat-chip-row *ngFor="let genre of genres; let i = index" (removed)="remove(genre)" [editable]="true"
+        <mat-chip-row *ngFor="let genre of genres; let i = index" [ngStyle]="{'background-color': isEven(i) ? '#7BA668' : '#eed9c4' }" (removed)="remove(genre)" [editable]="true"
           (edited)="edit(genre, $event)">
           {{ genre }}
           <button matChipRemove>

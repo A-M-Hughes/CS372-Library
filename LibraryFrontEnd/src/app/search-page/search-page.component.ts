@@ -8,10 +8,16 @@ import { BookCollectionService } from 'src/controllers/book-collection-controlle
   styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit {
-  constructor(private bookSearchService: BookSearchService, private bookCollectionService: BookCollectionService, private el: ElementRef) { }
+  constructor(private bookSearchService: BookSearchService, private bookCollectionService: BookCollectionService, private el: ElementRef) {
+    for (let i = 0; i < 15; i++) {
+      this.clicked[i] = false;
+    }
+  }
 
+  clicked: any = {};
   searchQuery: string = '';
   searchResults: any[] = [];
+
 
   ngOnInit() { }
 
@@ -36,7 +42,7 @@ export class SearchPageComponent implements OnInit {
   }
 
 
-  addToCollection(book: any, id: Number) {
+  addToCollection(book: any, id: number) {
     console.log(id);
     const trimmedTitle = book.title.slice(0, 80);
     const formattedBook = {
@@ -54,10 +60,10 @@ export class SearchPageComponent implements OnInit {
         console.log('Book added successfully', data);
 
         const buttonElement = this.el.nativeElement.querySelector('#b' + id.toString());
-
         // Change the button text
         buttonElement.innerText = 'Book Added To Collection';
         buttonElement.classList.add('finishedButton');
+        this.clicked[id] = true;
         // Change the onclick function to do nothing
         buttonElement.onclick = () => {
           console.log('Button clicked, but doing nothing');
