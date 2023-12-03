@@ -7,6 +7,9 @@ const registerSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
     "name": Joi.string().min(2).max(25).required(),
     "password": Joi.string().min(10).max(255).required(),
+    "genres":  Joi.array().items(
+        Joi.string()
+    ),
 });
 
 //Validation for the login schema

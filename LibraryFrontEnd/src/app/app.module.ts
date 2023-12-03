@@ -17,6 +17,11 @@ import { BookCardComponent } from './book-card/book-card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchPageComponent } from './search-page/search-page.component';
+import { RecomendedPageComponent } from './recomended-page/recomended-page.component';
+import { CollectionPageComponent } from './collection-page/collection-page.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -29,17 +34,24 @@ import { SearchPageComponent } from './search-page/search-page.component';
     TrendingBookListComponent,
     BookCardComponent,
     DashboardComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    RecomendedPageComponent,
+    CollectionPageComponent
   ],
   imports: [
     BrowserModule,
+    MatChipsModule,
     ReactiveFormsModule,
     RouterModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
