@@ -31,6 +31,22 @@
     <a routerLink="/login">
       <button class="sign-in">Sign In</button>
     </a>
+    <br>
+    <mat-form-field type="genres" class="example-chip-list" required>
+      <mat-label>Favorite Genres</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Enter fruits">
+        <mat-chip-row *ngFor="let genre of genres; let i = index" (removed)="remove(genre)" [editable]="true"
+          (edited)="edit(genre, $event)">
+          {{ genre }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="New Genre..." [matChipInputFor]="chipGrid"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)" />
+      </mat-chip-grid>
+    </mat-form-field>
   </form>
   <app-spinner></app-spinner>
 </div>
