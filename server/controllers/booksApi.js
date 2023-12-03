@@ -1,6 +1,9 @@
 const https = require('https');
 const Semaphore = require('async-mutex').Semaphore;
-const {openLibrarySearch, getJsonFromReq} = require('../helpers/openLibrarySearch');
+const { openLibrarySearch, getJsonFromReq } = require('../helpers/openLibrarySearch');
+const bookList = require('../models/bookList');
+const User = require('../models/user');
+const JWT = require('jsonwebtoken');
 
 //Helper Functions
 
@@ -362,12 +365,29 @@ const searchBooks = async (req, res) => {
 
         const result = await openLibrarySearch(searchUrl, limit, page);
 
-        if(result === 'no search results found') {
+        if (result === 'no search results found') {
             res.status(404).json({ error: { status: 404, message: 'no search results found' } });
             return;
-        } else if(result === 'page is out of bounds') {
+        } else if (result === 'page is out of bounds') {
             res.status(400).json({ error: { status: 400, message: 'page is out of bounds' } });
         }
+
+        const accessToken = req.header('Authorization').split(' ')[1];
+        const decodeAccessToken = JWT.verify(accessToken, process.env.SECRET_ACCESS_TOKEN);
+        const user = await User.findOne({ email: decodeAccessToken.email });
+        const collection = await bookList.findOne({ _id: user.bookLists.ownedBooks });
+        if (collection) {
+            let count = 0;
+            result.results.forEach(x => {
+                collection.books.forEach(y => {
+                    if (y.title == x.title) {
+                        x.inCollection = true;
+                    }
+                    x.number = count++;
+                })
+            })
+        }
+
 
         res.send(result);
     } catch (error) {

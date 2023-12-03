@@ -8,15 +8,6 @@
     <br>
     <input type="password" class="textbox" placeholder="Password" [(ngModel)]="password" name="password" required>
     <br>
-    <br>
-    <button class="createAccount" type="submit">Create Account</button>
-    <br>
-    <label for="">Already have an account?</label>
-    <br>
-    <a routerLink="/login">
-      <button class="sign-in">Sign In</button>
-    </a>
-    <br>
     <mat-form-field type="genres" class="example-chip-list" required>
       <mat-label>Favorite Genres</mat-label>
       <mat-chip-grid #chipGrid aria-label="Enter fruits">
@@ -27,11 +18,21 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
-        <input placeholder="New Genre..." [matChipInputFor]="chipGrid"
+        <input placeholder="Add Genres" [matChipInputFor]="chipGrid"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
           (matChipInputTokenEnd)="add($event)" />
       </mat-chip-grid>
     </mat-form-field>
+    <br>
+    <button class="createAccount" type="submit">Create Account</button>
+    <br>
+    <label for="">Already have an account?</label>
+    <br>
+    <a routerLink="/login">
+      <button class="sign-in">Sign In</button>
+    </a>
+    <br>
   </form>
+  <app-spinner></app-spinner>
 </div>
 <img src="./assets/LoginImage2.png" alt="Login Image">
