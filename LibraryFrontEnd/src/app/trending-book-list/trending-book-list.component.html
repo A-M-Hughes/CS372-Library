@@ -1,7 +1,3 @@
-<div class="trending-book-list" [ngStyle]="{
-  'border': '1px solid #ddd',
-  'border-radius': '10px',
-  'width': '100%',
-}" *ngFor="let book of books">
+<div class="book-details"  *ngFor="let book of books">
   <app-book-card [book]="book"></app-book-card>
 </div>
