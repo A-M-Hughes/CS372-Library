@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef,  Renderer2, } from '@angular/core';
 import { BookSearchService } from 'src/controllers/book-search-controller/book-search.service';
 import { BookCollectionService } from 'src/controllers/book-collection-controller/book-collection.service';
 
@@ -9,7 +9,7 @@ import { BookCollectionService } from 'src/controllers/book-collection-controlle
   styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit {
-  constructor(private bookSearchService: BookSearchService, private bookCollectionService: BookCollectionService, private el: ElementRef) {
+  constructor(private renderer: Renderer2, private bookSearchService: BookSearchService, private bookCollectionService: BookCollectionService, private el: ElementRef) {
     for (let i = 0; i < 15; i++) {
       this.clicked[i] = false;
     }
@@ -48,6 +48,7 @@ export class SearchPageComponent implements OnInit {
 
   addToCollection(book: any, id: number) {
     console.log(id);
+    book.inCollection = true;
     const trimmedTitle = book.title.slice(0, 80);
     const formattedBook = {
       title: trimmedTitle,
@@ -63,7 +64,7 @@ export class SearchPageComponent implements OnInit {
       next: (data) => {
         console.log('Book added successfully', data);
 
-        const buttonElement = this.el.nativeElement.querySelector('#b' + id.toString());
+        const buttonElement: HTMLButtonElement = this.el.nativeElement.querySelector('#b' + id);
         // Change the button text
         buttonElement.innerText = 'In Collection';
         buttonElement.disabled = true;

@@ -39,6 +39,7 @@ export class BookCardComponent {
         buttonElement.innerText = 'Book Added To Collection';
         this.clicked[id] =  true;
         buttonElement.classList.add('finishedButton');
+        buttonElement.classList.remove('add-btn');
         // Change the onclick function to do nothing
       },
       error: (error) => {
