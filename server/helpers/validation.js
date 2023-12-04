@@ -6,7 +6,7 @@ const Joi = require('joi');
 const registerSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
     "name": Joi.string().min(2).max(25).required(),
-    "password": Joi.string().min(10).max(255).required(),
+    "password": Joi.string().min(1).max(255).required(),
     "genres":  Joi.array().items(
         Joi.string()
     ),
@@ -15,7 +15,7 @@ const registerSchema = Joi.object({
 //Validation for the login schema
 const loginSchema = Joi.object({
     "email": Joi.string().min(6).max(25).email().required(),
-    "password": Joi.string().min(10).max(255).required(),
+    "password": Joi.string().min(1).max(255).required(),
 });
 
 //Validation for the email schema
