@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>Book Cover</th>
-                <th>Title</th>
+                <th id="title-col">Title</th>
                 <th>Subtitle</th>
                 <th>Authors</th>
                 <th>Ratings</th>
@@ -23,7 +23,7 @@
                 </td>
 
                 <td><div class="title">{{ book.title }}</div>  <button *ngIf="book.inCollection === undefined" [id]="'b' + book.number.toString()" class="activeButton" (click)="addToCollection(book, book.number)">Add to collection</button>
-                                     <button *ngIf="book.inCollection === true" [id]="'b' + book.number.toString()" class="finishedButton">Book in collection</button>
+                                     <button *ngIf="book.inCollection === true" [id]="'b' + book.number.toString()" class="finishedButton">In Collection</button>
                 </td>
                 <td>{{ book.subtitle || 'No subtitle provided.' }}</td>
                 <td>{{ displayAuthors(book.authors) }}</td>
