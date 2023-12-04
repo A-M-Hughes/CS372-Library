@@ -3,3 +3,7 @@
     grid-template-columns: repeat(5, 200px);
     justify-items: center;
 }
+
+.book-details {
+    text-align: center;
+}
