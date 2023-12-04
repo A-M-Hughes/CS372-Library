@@ -9,18 +9,15 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 
-
-
-
 // MIDDLEWARE:
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors({origin: ['http://localhost:4200', 'http://localhost:4000'],
-methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-credentials: true, }));
-
-//app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:4200', 'http://localhost:4000', 'https://library-app-lbwru654xq-uc.a.run.app'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+}));
 
 // ROUTES:
 
@@ -43,7 +40,7 @@ app.use('/api/recommendations', recommendationRoutes);
 
 //This is the 404 Route. THIS MUST REMAIN LAST IT CATCHES ALL OTHER GET REQUESTS 
 app.get('*', function (req, res) {
-    res.status(404).json({error: {status: 404, message: "File Not Found"}}); //send 404 error and file
+    res.status(404).json({ error: { status: 404, message: "File Not Found" } }); //send 404 error and file
 });
 
 require('dotenv').config();
@@ -57,7 +54,7 @@ mongoose.connect(process.env.DB_URI,
                 console.log("Server is Successfully Running, and App is listening on port " + PORT);
             else
                 console.log("Error occurred, server can't start", error);
-        }); 
+        });
     });
 
 module.exports = app;
