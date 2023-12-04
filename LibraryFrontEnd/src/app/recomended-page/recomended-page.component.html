@@ -1,7 +1,10 @@
 <app-navbar></app-navbar>
 <div class="container">
     <h2 class="page-title">Book Recommendations</h2>
-    <button (click)="createRecommendedButton()">Waste Sean's money button</button>
+    <div class="buttonContainer">
+        <button mat-raised-button color="accent" (click)="createRecommendedButton()" class="generateButton">Waste Sean's
+            money button</button>
+    </div>
     <div class="book-grid">
         <div *ngFor="let book of recommendedBooks" class="book-card">
             <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" class="book-cover" />
@@ -10,7 +13,8 @@
                 <p class="author">Author: {{ displayAuthors(book.author) }}</p>
                 <p class="rating">Rating: {{ displayRating(book.rating) }}</p>
                 <button class="add-btn" (click)="addToCollection(book)">Add To Collection</button>
-                <button class="remove-btn" (click)="removeFromRecommendations(book._id)">Remove From Recommendations</button>
+                <button class="remove-btn" (click)="removeFromRecommendations(book._id)">Remove From
+                    Recommendations</button>
             </div>
         </div>
     </div>

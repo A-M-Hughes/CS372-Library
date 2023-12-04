@@ -14,6 +14,16 @@
     background-clip: text;
 }
 
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.generateButton {
+    margin-bottom: 2em;
+    align-items: center;
+}
+
 .book-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
