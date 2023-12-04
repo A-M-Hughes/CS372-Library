@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef,  Renderer2, } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, } from '@angular/core';
 import { BookSearchService } from 'src/controllers/book-search-controller/book-search.service';
 import { BookCollectionService } from 'src/controllers/book-collection-controller/book-collection.service';
 
@@ -18,16 +18,46 @@ export class SearchPageComponent implements OnInit {
   clicked: any = {};
   searchQuery: string = '';
   searchResults: any[] = [];
+  pageNumber: number = 0;
+  maxNumber: number = -1;
 
   ngOnInit() { }
 
   search() {
-    const data= {
+    const data = {
       searchQuery: this.searchQuery
     };
 
     if (data.searchQuery.trim() !== '') {
       this.bookSearchService.searchBooks(data.searchQuery).subscribe((res: any) => {
+        this.searchResults = res.results;
+        this.maxNumber = Math.ceil(res.numFound / res.numOnPage);
+        this.pageNumber = 1;
+        console.log(res);
+      });
+    }
+  }
+
+  nextPage() {
+    const data = {
+      searchQuery: this.searchQuery
+    };
+
+    if (data.searchQuery.trim() !== '') {
+      this.bookSearchService.searchBooks(data.searchQuery, ++this.pageNumber).subscribe((res: any) => {
+        this.searchResults = res.results;
+        console.log(res);
+      });
+    }
+  }
+
+  previousPage() {
+    const data = {
+      searchQuery: this.searchQuery
+    };
+
+    if (data.searchQuery.trim() !== '') {
+      this.bookSearchService.searchBooks(data.searchQuery, --this.pageNumber).subscribe((res: any) => {
         this.searchResults = res.results;
         console.log(res);
       });
