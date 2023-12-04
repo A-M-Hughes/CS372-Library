@@ -36,9 +36,16 @@ const register = async (req, res) => {
                 blackList: []
             });
 
+            const bookCollection = new bookList({
+                accountEmail: req.body.email,
+                type: "collection",
+                books: []
+            });
+
             const promises = [
                 recommendationList.save(),
-                badRecommendations.save()
+                badRecommendations.save(),
+                bookCollection.save()
             ];
 
             await Promise.all(promises);
@@ -63,7 +70,8 @@ const register = async (req, res) => {
                 },
                 bookLists: {
                     recommendations: recommendationList.id,
-                    badRecommendations: badRecommendations.id
+                    badRecommendations: badRecommendations.id,
+                    ownedBooks: bookCollection.id
                 },
                 genres: genres
             });

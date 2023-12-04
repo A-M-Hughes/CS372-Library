@@ -16,9 +16,13 @@ h2 {
     text-align: left;
 }
 
-.title{
+#title-col {
+    min-width: 30em;
+}
+
+.title {
     float: left;
-    margin-top:1%;
+    margin-top: 1%;
 }
 
 .book-table th {
@@ -38,9 +42,9 @@ h2 {
     margin-bottom: 1%;
     background-image: url(/assets/SearchIcon.png);
     background-repeat: no-repeat;
-    background-position:1%;
+    background-position: 1%;
     background-size: contain;
-    background-clip:border-box;
+    background-clip: border-box;
     padding-left: 1.5%;
 }
 
@@ -49,22 +53,35 @@ h2 {
 }
 
 .search-button {
-    font-size:small;
-    width: 4.5% ;
+    font-size: small;
+    width: 4.5%;
     height: 28px;
     background-color: #7BA668;
     border-radius: 8px;
     border: none;
 }
 
-.activeButton, .finishedButton {
+.activeButton,
+.finishedButton {
     margin-right: 5%;
     margin-top: 0%;
     width: 15%;
     background-color: #7BA668;
     border: none;
     border-radius: 10px;
-    float:right;
+    float: right;
+    font-weight: bold;
+}
+
+.finishedButton {
+    margin-right: 5%;
+    margin-top: 0%;
+    width: 15%;
+    background-color: burlywood;
+    border: none;
+    border-radius: 10px;
+    float: right;
+    font-weight: bold;
 }
 
 .activeButton:hover {
