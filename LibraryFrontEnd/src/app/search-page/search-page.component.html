@@ -40,4 +40,11 @@
             </tr>
         </tbody>
     </table>
+    <div id="page-selector">
+        <button mat-raised-button color="primary" *ngIf="pageNumber > 1" class="activeButton" (click)="previousPage()">Previous Page</button>
+        <button mat-raised-button disabled *ngIf="pageNumber == 1" class="finishedButton">Previous Page</button>
+        <p id="pageNum" *ngIf="pageNumber != 0">Page: {{pageNumber}}</p>
+        <button mat-raised-button color="primary" class="activeButton" *ngIf="pageNumber >= 1 && pageNumber + 1 < maxNumber" (click)="nextPage()">Next Page</button>
+        <button mat-raised-button disabled *ngIf="pageNumber == maxNumber" class="finishedButton">Next Page</button>
+    </div>
 </div>
