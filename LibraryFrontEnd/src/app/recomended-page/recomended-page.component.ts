@@ -61,6 +61,10 @@ export class RecomendedPageComponent implements OnInit {
     this.recommendedBookService.createRecommendations().subscribe({
       next: () => {
         console.log('Recommendations created successfully');
+        this.recommendedBookService.getRecommendedBooks().subscribe((res: any) => {
+          this.recommendedBooks = res.success.books;
+          console.log(res);
+        });
       },
       error: (error) => {
         console.error('Error creating recommendations:', error);

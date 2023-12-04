@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container">
-    <button (click)="createRecommendedButton()">Waste Sean's money button</button>
     <h2 class="page-title">Book Recommendations</h2>
+    <button (click)="createRecommendedButton()">Waste Sean's money button</button>
     <div class="book-grid">
         <div *ngFor="let book of recommendedBooks" class="book-card">
             <img *ngIf="book.coverLink" [src]="book.coverLink" alt="Book Cover" class="book-cover" />
