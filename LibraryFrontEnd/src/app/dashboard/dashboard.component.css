@@ -1,0 +1,9 @@
+.page-title {
+    color: transparent;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    -webkit-background-clip: text;
+    background-clip: text;
+}

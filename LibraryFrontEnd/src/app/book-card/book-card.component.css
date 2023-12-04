@@ -1,10 +1,66 @@
-:host {
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    padding: 10px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.finishedButton { 
-    background-color: green;
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.book-card {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    
+}
+
+.book-card:hover {
+    transform: scale(1.05);
+}
+
+.book-cover {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+.author {
+    color: #666;
+}
+
+.rating {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.add-btn {
+    background-color: #7BA668;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.add-btn:hover {
+    background-color: #648e52;
+}
+
+.finishedButton {
+    background-color: blue;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
