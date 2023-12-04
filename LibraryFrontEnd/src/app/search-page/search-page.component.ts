@@ -19,12 +19,15 @@ export class SearchPageComponent implements OnInit {
   searchQuery: string = '';
   searchResults: any[] = [];
 
-
   ngOnInit() { }
 
   search() {
-    if (this.searchQuery.trim() !== '') {
-      this.bookSearchService.searchBooks(this.searchQuery).subscribe((res: any) => {
+    const data= {
+      searchQuery: this.searchQuery
+    };
+
+    if (data.searchQuery.trim() !== '') {
+      this.bookSearchService.searchBooks(data.searchQuery).subscribe((res: any) => {
         this.searchResults = res.results;
         console.log(res);
       });
@@ -62,7 +65,8 @@ export class SearchPageComponent implements OnInit {
 
         const buttonElement = this.el.nativeElement.querySelector('#b' + id.toString());
         // Change the button text
-        buttonElement.innerText = 'Book Added To Collection';
+        buttonElement.innerText = 'In Collection';
+        buttonElement.disabled = true;
         buttonElement.classList.add('finishedButton');
         this.clicked[id] = true;
         // Change the onclick function to do nothing

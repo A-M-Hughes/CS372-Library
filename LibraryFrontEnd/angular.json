@@ -25,7 +25,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
+              "src/scss/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -94,7 +94,7 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/scss/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
